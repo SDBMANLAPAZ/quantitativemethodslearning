@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Problems & Hypotheses</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f23;
+            background-image: 
+                radial-gradient(at 20% 80%, hsla(120,100%,50%,0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 20%, hsla(240,100%,70%,0.15) 0px, transparent 50%),
+                radial-gradient(at 40% 40%, hsla(300,100%,60%,0.1) 0px, transparent 50%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e2e8f0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 50%, #10b981 100%);
+            padding: 35px 40px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        .course-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .course-code {
+            color: #fbbf24;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .institution {
+            color: #e2e8f0;
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+        
+        .header-activity {
+            background: rgba(15, 23, 42, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .activity-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fbbf24;
+        }
+        
+        .matching-game {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .match-item {
+            background: rgba(139, 92, 246, 0.2);
+            border: 2px solid rgba(139, 92, 246, 0.4);
+            border-radius: 12px;
+            padding: 12px 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            font-weight: 500;
+            min-width: 180px;
+            text-align: center;
+        }
+        
+        .match-item:hover {
+            transform: translateY(-2px) scale(1.05);
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .match-item.selected {
+            background: rgba(251, 191, 36, 0.3);
+            border-color: #fbbf24;
+            transform: scale(1.1);
+        }
+        
+        .match-item.matched {
+            background: rgba(16, 185, 129, 0.3);
+            border-color: #10b981;
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .match-targets {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .target-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .target-label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+        
+        .drop-zone {
+            width: 140px;
+            height: 60px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .drop-zone:hover {
+            border-color: rgba(139, 92, 246, 0.6);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .drop-zone.filled {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            color: #10b981;
+            font-weight: 600;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .activity-feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        
+        .activity-feedback.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .activity-feedback.success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #10b981;
+        }
+        
+        .activity-feedback.partial {
+            background: rgba(251, 191, 36, 0.2);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            color: #fbbf24;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 12px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(15, 23, 42, 0.3);
+            margin-top: 25px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #10b981, #06b6d4);
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 4px;
+        }
+        
+        .content {
+            padding: 50px;
+            background: rgba(15, 23, 42, 0.4);
+        }
+        
+        .section {
+            display: none;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .section h2 {
+            color: #f1f5f9;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(135deg, #8b5cf6, #06b6d4) 1;
+            padding-bottom: 15px;
+        }
+        
+        .card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 25px 0;
+            box-shadow: 
+                0 10px 25px -5px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 
+                0 20px 40px -10px rgba(139, 92, 246, 0.2),
+                0 0 0 1px rgba(139, 92, 246, 0.1);
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        .card h3 {
+            color: #f1f5f9;
+            margin-bottom: 18px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+        
+        .interactive-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 18px;
+            padding: 30px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .interactive-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #fbbf24, #a855f7, #06b6d4, #10b981);
+            border-radius: 20px;
+            z-index: -1;
+            animation: borderRotate 4s linear infinite;
+        }
+        
+        @keyframes borderRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .interactive-box h4 {
+            color: #fbbf24;
+            margin-bottom: 18px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 18px;
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            font-size: 16px;
+            margin: 12px 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            color: #f1f5f9;
+            backdrop-filter: blur(5px);
+        }
+        
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            background: rgba(30, 41, 59, 0.8);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 12px 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translate(-50%, -50%);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 20px 40px -10px rgba(139, 92, 246, 0.3),
+                0 0 20px rgba(139, 92, 246, 0.2);
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: #f1f5f9;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .examples {
+            background: rgba(6, 182, 212, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 14px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+        
+        .examples h4 {
+            color: #06b6d4;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .checklist {
+            list-style: none;
+        }
+        
+        .checklist li {
+            padding: 12px 0;
+            position: relative;
+            padding-left: 35px;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+        
+        .checklist li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 20px;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        .quiz-question {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .quiz-options {
+            margin: 18px 0;
+        }
+        
+        .quiz-options label {
+            display: block;
+            padding: 14px 18px;
+            margin: 8px 0;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+        
+        .quiz-options label:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateX(5px);
+        }
+        
+        .feedback {
+            margin-top: 18px;
+            padding: 18px;
+            border-radius: 12px;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+        
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="course-badge">
+                <span class="course-code">QUANTITATIVE METHODS</span>
+                <span class="institution">SDBM</span>
+            </div>
+            <h1>Research Problems & Hypotheses</h1>
+            <p>Interactive Learning Experience</p>
+            
+            <!-- Interactive Header Activity -->
+            <div class="header-activity">
+                <div class="activity-title">🎯 Quick Challenge: Match the Research Element</div>
+                <div class="matching-game">
+                    <div class="match-item" data-type="problem" onclick="selectItem(this)">
+                        "How does study time affect exam scores?"
+                    </div>
+                    <div class="match-item" data-type="hypothesis" onclick="selectItem(this)">
+                        "Students who study more will score higher"
+                    </div>
+                    <div class="match-item" data-type="variable" onclick="selectItem(this)">
+                        "Study time (hours per week)"
+                    </div>
+                </div>
+                <div class="match-targets">
+                    <div class="target-box" data-target="problem">
+                        <span class="target-label">Research Problem</span>
+                        <div class="drop-zone" id="problem-zone">Drop here</div>
+                    </div>
+                    <div class="target-box" data-target="hypothesis">
+                        <span class="target-label">Hypothesis</span>
+                        <div class="drop-zone" id="hypothesis-zone">Drop here</div>
+                    </div>
+                    <div class="target-box" data-target="variable">
+                        <span class="target-label">Variable</span>
+                        <div class="drop-zone" id="variable-zone">Drop here</div>
+                    </div>
+                </div>
+                <div class="activity-feedback" id="headerFeedback"></div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Section 1: Sources of Research Problems -->
+            <div class="section active" id="section1">
+                <h2>🔍 Sources of Research Problems</h2>
+                
+                <div class="card">
+                    <h3>Where do research problems come from?</h3>
+                    <p>Research problems emerge from various sources in our academic and professional environments. Understanding these sources helps researchers identify meaningful questions worth investigating.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Major Sources:</h3>
+                    <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Literature Gaps:</strong> Unresolved questions or contradictions in existing research</li>
+                        <li><strong>Professional Practice:</strong> Real-world challenges and problems in your field</li>
+                        <li><strong>Theory Development:</strong> Testing or extending existing theories</li>
+                        <li><strong>Technology & Innovation:</strong> New tools creating new research possibilities</li>
+                        <li><strong>Social Issues:</strong> Current societal problems needing investigation</li>
+                        <li><strong>Personal Curiosity:</strong> Questions arising from observations and experiences</li>
+                    </ul>
+                </div>
+                
+                <div class="interactive-box">
+                    <h4>🎯 YOUR TURN: Identify a Research Source</h4>
+                    <p>Think about your field of study or interest. Identify one specific source where you've noticed a potential research problem.</p>
+                    <input type="text" id="researchSource" placeholder="e.g., 'In my psychology classes, I noticed conflicting findings about...'">
+                    <button class="btn" onclick="saveResponse('researchSource')">Save Response</button>
+                </div>
+                
+                <div class="examples">
+                    <h4>Real Examples:</h4>
+                    <p><strong>Literature Gap:</strong> "Most studies on remote work focus on productivity, but few examine long-term mental health impacts."</p>
+                    <p><strong>Professional Practice:</strong> "Hospital nurses report high turnover rates, but current retention strategies seem ineffective."</p>
+                </div>
+            </div>
+            
+            <!-- Section 2: Basic Criteria -->
+            <div class="section" id="section2">
+                <h2>📋 Basic Criteria for Research Problem Formulation</h2>
+                
+                <div class="card">
+                    <h3>What makes a good research problem?</h3>
+                    <p>Not every question makes a good research problem. Strong research problems meet specific criteria that ensure they're worth investigating and feasible to study.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Essential Criteria:</h3>
+                    <ul class="checklist">
+                        <li><strong>Significance:</strong> The problem should matter to the field or society</li>
+                        <li><strong>Feasibility:</strong> Possible to investigate with available resources and time</li>
+                        <li><strong>Clarity:</strong> Clearly defined and specific, not vague or overly broad</li>
+                        <li><strong>Originality:</strong> Adds something new to existing knowledge</li>
+                        <li><strong>Ethical:</strong> Can be studied without causing harm</li>
+                        <li><strong>Researchable:</strong> Can be answered through systematic investigation</li>
+                    </ul>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>🤔 Quick Check: Which is a better research problem?</h4>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="q1" value="a"> A) "Why is everything so complicated?"</label>
+                        <label><input type="radio" name="q1" value="b"> B) "How does social media usage affect sleep quality in college students?"</label>
+                    </div>
+                    <button class="btn btn-secondary" onclick="checkAnswer('q1', 'b', 'Option B is better because it\'s specific, measurable, and feasible to study.')">Check Answer</button>
+                    <div class="feedback" id="q1-feedback"></div>
+                </div>
+                
+                <div class="interactive-box">
+                    <h4>🎯 YOUR TURN: Refine Your Problem</h4>
+                    <p>Take the research source you identified earlier and formulate it into a clear, specific research problem using the criteria above.</p>
+                    <textarea id="refinedProblem" rows="4" placeholder="Write your refined research problem here..."></textarea>
+                    <button class="btn" onclick="saveResponse('refinedProblem')">Save Refined Problem</button>
+                </div>
+            </div>
+            
+            <!-- Section 3: Types of Hypotheses -->
+            <div class="section" id="section3">
+                <h2>🔬 Types of Hypotheses</h2>
+                
+                <div class="card">
+                    <h3>Understanding Hypotheses</h3>
+                    <p>A hypothesis is a testable prediction about the relationship between variables. Different types serve different research purposes.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Main Types:</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div>
+                            <h4 style="color: #0984e3;">Directional vs. Non-directional</h4>
+                            <p><strong>Directional:</strong> Predicts the direction of relationship</p>
+                            <p><em>Example:</em> "Students who study more will score higher"</p>
+                            <p><strong>Non-directional:</strong> Predicts a relationship exists but not the direction</p>
+                            <p><em>Example:</em> "There is a relationship between study time and test scores"</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #0984e3;">Null vs. Alternative</h4>
+                            <p><strong>Null (H₀):</strong> No relationship exists</p>
+                            <p><em>Example:</em> "Study time has no effect on test scores"</p>
+                            <p><strong>Alternative (H₁):</strong> A relationship exists</p>
+                            <p><em>Example:</em> "Study time affects test scores"</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Other Important Types:</h3>
+                    <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Simple:</strong> One independent and one dependent variable</li>
+                        <li><strong>Complex:</strong> Multiple independent and/or dependent variables</li>
+                        <li><strong>Associative:</strong> Variables are related but no causation is claimed</li>
+                        <li><strong>Causal:</strong> One variable causes changes in another</li>
+                    </ul>
+                </div>
+                
+                <div class="interactive-box">
+                    <h4>🎯 YOUR TURN: Identify Hypothesis Types</h4>
+                    <p>For each hypothesis below, identify its type:</p>
+                    <div style="margin: 15px 0;">
+                        <p><strong>1.</strong> "Exercise frequency is related to stress levels in college students."</p>
+                        <select id="hyp1" style="width: 100%; padding: 10px; margin: 5px 0;">
+                            <option value="">Choose type...</option>
+                            <option value="correct">Non-directional, Associative</option>
+                            <option value="wrong1">Directional, Causal</option>
+                            <option value="wrong2">Null hypothesis</option>
+                        </select>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <p><strong>2.</strong> "Students who use study apps will score significantly higher on tests than those who don't."</p>
+                        <select id="hyp2" style="width: 100%; padding: 10px; margin: 5px 0;">
+                            <option value="">Choose type...</option>
+                            <option value="wrong1">Non-directional, Simple</option>
+                            <option value="correct">Directional, Causal</option>
+                            <option value="wrong2">Alternative, Complex</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="checkHypotheses()">Check Answers</button>
+                    <div id="hypFeedback" class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Formulating Hypotheses -->
+            <div class="section" id="section4">
+                <h2>⚡ Formulating Hypotheses from Research Problems</h2>
+                
+                <div class="card">
+                    <h3>From Problem to Hypothesis</h3>
+                    <p>Converting a research problem into testable hypotheses is a crucial skill. It requires identifying variables and predicting their relationships based on theory and logic.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Step-by-Step Process:</h3>
+                    <ol style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Identify variables</strong> in your research problem</li>
+                        <li><strong>Determine</strong> which is independent (cause) and dependent (effect)</li>
+                        <li><strong>Review theory/literature</strong> to understand likely relationships</li>
+                        <li><strong>Write the null hypothesis</strong> (no relationship)</li>
+                        <li><strong>Write the alternative hypothesis</strong> (predicted relationship)</li>
+                        <li><strong>Make it testable</strong> and specific</li>
+                    </ol>
+                </div>
+                
+                <div class="examples">
+                    <h4>Example Transformation:</h4>
+                    <p><strong>Research Problem:</strong> "How does social media usage affect sleep quality in college students?"</p>
+                    <p><strong>Variables:</strong> IV = Social media usage (hours/day), DV = Sleep quality (scale score)</p>
+                    <p><strong>H₀:</strong> "Social media usage has no effect on sleep quality in college students."</p>
+                    <p><strong>H₁:</strong> "Increased social media usage is associated with decreased sleep quality in college students."</p>
+                </div>
+                
+                <div class="interactive-box">
+                    <h4>🎯 YOUR TURN: Create Your Hypotheses</h4>
+                    <p>Using the research problem you refined earlier, create both null and alternative hypotheses.</p>
+                    
+                    <p><strong>Your Research Problem:</strong></p>
+                    <div id="displayProblem" style="background: #f1f3f4; padding: 15px; border-radius: 5px; margin: 10px 0; font-style: italic;">
+                        Your refined problem will appear here...
+                    </div>
+                    
+                    <label><strong>Null Hypothesis (H₀):</strong></label>
+                    <textarea id="nullHyp" rows="3" placeholder="There is no relationship between..."></textarea>
+                    
+                    <label><strong>Alternative Hypothesis (H₁):</strong></label>
+                    <textarea id="altHyp" rows="3" placeholder="There is a relationship between..."></textarea>
+                    
+                    <button class="btn" onclick="saveHypotheses()">Save Hypotheses</button>
+                </div>
+            </div>
+            
+            <!-- Section 5: Criteria for Good Hypotheses -->
+            <div class="section" id="section5">
+                <h2>⭐ Criteria for a Good Hypothesis</h2>
+                
+                <div class="card">
+                    <h3>Quality Checklist</h3>
+                    <p>A well-formulated hypothesis meets specific criteria that make it scientifically valuable and testable.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Essential Criteria:</h3>
+                    <ul class="checklist">
+                        <li><strong>Testable:</strong> Can be verified through observation or experimentation</li>
+                        <li><strong>Specific:</strong> Clearly defines variables and expected relationships</li>
+                        <li><strong>Based on Theory:</strong> Grounded in existing knowledge or logical reasoning</li>
+                        <li><strong>Simple:</strong> Not overly complex or containing multiple unrelated predictions</li>
+                        <li><strong>Falsifiable:</strong> Can potentially be proven wrong</li>
+                        <li><strong>Relevant:</strong> Addresses the research problem meaningfully</li>
+                        <li><strong>Measurable:</strong> Variables can be quantified or categorized</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>Common Mistakes to Avoid:</h3>
+                    <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8; color: #d63031;">
+                        <li>❌ Using vague terms: "Students will perform better"</li>
+                        <li>❌ Making value judgments: "Method X is the best approach"</li>
+                        <li>❌ Being too broad: "Technology affects learning"</li>
+                        <li>❌ Including multiple predictions: "X affects Y and Z affects A"</li>
+                    </ul>
+                </div>
+                
+                <div class="interactive-box">
+                    <h4>🎯 FINAL CHALLENGE: Evaluate Your Hypotheses</h4>
+                    <p>Review your hypotheses against the quality criteria:</p>
+                    
+                    <div id="displayHypotheses" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <p><strong>Your Null Hypothesis:</strong> <span id="showNull">Will appear here...</span></p>
+                        <p><strong>Your Alternative Hypothesis:</strong> <span id="showAlt">Will appear here...</span></p>
+                    </div>
+                    
+                    <p><strong>Self-Assessment:</strong> Check each criterion your hypotheses meet:</p>
+                    <div style="margin: 15px 0;">
+                        <label style="display: block; margin: 5px 0;"><input type="checkbox"> ✓ Testable and measurable</label>
+                        <label style="display: block; margin: 5px 0;"><input type="checkbox"> ✓ Specific and clear</label>
+                        <label style="display: block; margin: 5px 0;"><input type="checkbox"> ✓ Based on logical reasoning</label>
+                        <label style="display: block; margin: 5px 0;"><input type="checkbox"> ✓ Simple and focused</label>
+                        <label style="display: block; margin: 5px 0;"><input type="checkbox"> ✓ Falsifiable</label>
+                        <label style="display: block; margin: 5px 0;"><input type="checkbox"> ✓ Relevant to research problem</label>
+                    </div>
+                    
+                    <textarea id="improvements" rows="4" placeholder="What improvements could you make to strengthen your hypotheses?"></textarea>
+                    <button class="btn" onclick="completeLesson()">Complete Lesson</button>
+                </div>
+                
+                <div class="examples">
+                    <h4>🎉 Congratulations!</h4>
+                    <p>You've worked through the complete process of formulating research problems and developing hypotheses. This foundational skill will serve you well in any research endeavor!</p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousSection()" style="display: none;">← Previous</button>
+                <button class="btn" id="nextBtn" onclick="nextSection()">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 5;
+        let userResponses = {};
+
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showSection(n) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById('section' + n).classList.add('active');
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').style.display = n > 1 ? 'inline-block' : 'none';
+            document.getElementById('nextBtn').textContent = n === totalSections ? 'Complete' : 'Next →';
+            
+            updateProgress();
+        }
+
+        function nextSection() {
+            if (currentSection < totalSections) {
+                currentSection++;
+                showSection(currentSection);
+            } else {
+                alert('Lesson completed! Great work on mastering research problems and hypotheses!');
+            }
+        }
+
+        function previousSection() {
+            if (currentSection > 1) {
+                currentSection--;
+                showSection(currentSection);
+            }
+        }
+
+        function saveResponse(elementId) {
+            const element = document.getElementById(elementId);
+            userResponses[elementId] = element.value;
+            
+            if (elementId === 'refinedProblem') {
+                document.getElementById('displayProblem').textContent = element.value || 'Your refined problem will appear here...';
+            }
+            
+            element.style.borderColor = '#00b894';
+            setTimeout(() => {
+                element.style.borderColor = '#ddd';
+            }, 1000);
+        }
+
+        function checkAnswer(questionName, correctAnswer, explanation) {
+            const selected = document.querySelector(`input[name="${questionName}"]:checked`);
+            const feedback = document.getElementById(questionName + '-feedback');
+            
+            if (!selected) {
+                alert('Please select an answer first!');
+                return;
+            }
+            
+            if (selected.value === correctAnswer) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✅ Correct! ' + explanation;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '❌ Not quite. ' + explanation;
+            }
+            
+            feedback.style.display = 'block';
+        }
+
+        function checkHypotheses() {
+            const hyp1 = document.getElementById('hyp1').value;
+            const hyp2 = document.getElementById('hyp2').value;
+            const feedback = document.getElementById('hypFeedback');
+            
+            let score = 0;
+            let message = '';
+            
+            if (hyp1 === 'correct') {
+                score++;
+                message += '✅ Question 1: Correct! This is non-directional and associative.\n';
+            } else {
+                message += '❌ Question 1: This hypothesis doesn\'t specify direction and claims association, not causation.\n';
+            }
+            
+            if (hyp2 === 'correct') {
+                score++;
+                message += '✅ Question 2: Correct! This predicts direction and implies causation.\n';
+            } else {
+                message += '❌ Question 2: This hypothesis predicts higher scores (direction) and uses causal language.\n';
+            }
+            
+            feedback.className = score === 2 ? 'feedback correct' : 'feedback incorrect';
+            feedback.textContent = message;
+            feedback.style.display = 'block';
+        }
+
+        function saveHypotheses() {
+            const nullHyp = document.getElementById('nullHyp').value;
+            const altHyp = document.getElementById('altHyp').value;
+            
+            userResponses.nullHypothesis = nullHyp;
+            userResponses.alternativeHypothesis = altHyp;
+            
+            document.getElementById('showNull').textContent = nullHyp || 'Will appear here...';
+            document.getElementById('showAlt').textContent = altHyp || 'Will appear here...';
+            
+            // Visual feedback
+            document.getElementById('nullHyp').style.borderColor = '#00b894';
+            document.getElementById('altHyp').style.borderColor = '#00b894';
+            
+            setTimeout(() => {
+                document.getElementById('nullHyp').style.borderColor = '#ddd';
+                document.getElementById('altHyp').style.borderColor = '#ddd';
+            }, 1000);
+        }
+
+        function completeLesson() {
+            const improvements = document.getElementById('improvements').value;
+            userResponses.improvements = improvements;
+            
+            alert('🎉 Congratulations! You\'ve completed the interactive lesson on Research Problems and Hypotheses. You now have practical experience in:\n\n• Identifying research sources\n• Formulating clear problems\n• Understanding hypothesis types\n• Creating testable hypotheses\n• Evaluating hypothesis quality\n\nKeep practicing these skills in your research journey!');
+        }
+
+        // Header Activity Functions
+        let selectedItem = null;
+        let matchedItems = 0;
+
+        function selectItem(element) {
+            if (element.classList.contains('matched')) return;
+            
+            // Clear previous selection
+            document.querySelectorAll('.match-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Select new item
+            element.classList.add('selected');
+            selectedItem = element;
+        }
+
+        function dropInZone(zoneId, targetType) {
+            if (!selectedItem) return;
+            
+            const zone = document.getElementById(zoneId);
+            const itemType = selectedItem.getAttribute('data-type');
+            
+            if (itemType === targetType) {
+                // Correct match
+                zone.textContent = selectedItem.textContent.substring(0, 40) + '...';
+                zone.classList.add('filled');
+                selectedItem.classList.add('matched');
+                selectedItem.classList.remove('selected');
+                matchedItems++;
+                
+                // Check if all items are matched
+                if (matchedItems === 3) {
+                    showHeaderFeedback('🎉 Perfect! You understand the key research elements!', 'success');
+                }
+                
+                selectedItem = null;
+            } else {
+                // Incorrect match
+                showHeaderFeedback('Not quite right! Try again.', 'partial');
+                selectedItem.classList.remove('selected');
+                selectedItem = null;
+            }
+        }
+
+        function showHeaderFeedback(message, type) {
+            const feedback = document.getElementById('headerFeedback');
+            feedback.textContent = message;
+            feedback.className = `activity-feedback show ${type}`;
+            
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 3000);
+        }
+
+        // Add click listeners to drop zones
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('problem-zone').onclick = () => dropInZone('problem-zone', 'problem');
+            document.getElementById('hypothesis-zone').onclick = () => dropInZone('hypothesis-zone', 'hypothesis');
+            document.getElementById('variable-zone').onclick = () => dropInZone('variable-zone', 'variable');
+        });
+    </script>
+</body>
+</html>
