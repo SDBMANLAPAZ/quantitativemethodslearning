@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <a href="hypo.html" class="lesson-2">
-    <a href="#lesson-2" class="lesson-item">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantitative Methods IT 318 - Lesson Menu</title>
+    <title>Quantitative Methods IT 318 - Interactive Learning</title>
     <style>
         * {
             margin: 0;
@@ -13,16 +11,87 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
             background: linear-gradient(135deg, #1a2e05 0%, #365314 30%, #4d7c0f 70%, #65a30d 100%);
-            min-height: 100vh;
-            padding: 20px;
+            color: #333;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+
+        /* Navigation Header */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid #65a30d;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            color: #84cc16;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            color: #bbf7d0;
+            font-size: 0.9em;
+        }
+
+        .nav-item:hover {
+            background: rgba(132, 204, 22, 0.2);
+            color: #84cc16;
+        }
+
+        .nav-item.active {
+            background: #84cc16;
+            color: #0f1419;
+        }
+
+        /* Main Content Sections */
+        .lesson-section {
+            min-height: 100vh;
+            padding: 100px 20px 50px;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background: linear-gradient(135deg, #1a2e05 0%, #365314 30%, #4d7c0f 70%, #65a30d 100%);
+            color: #f0fdf4;
+        }
+
+        .menu-container {
             background: #0f1419;
             border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
@@ -34,7 +103,6 @@
             background: linear-gradient(135deg, #365314 0%, #4d7c0f 50%, #65a30d 100%);
             color: #f0fdf4;
             padding: 25px;
-            border-bottom: 3px solid #84cc16;
             position: relative;
         }
 
@@ -50,33 +118,9 @@
         }
 
         .course-info {
-            max-width: 700px;
-            margin: 0 auto;
             position: relative;
             z-index: 2;
-        }
-
-        .academic-header {
             text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid rgba(240, 253, 244, 0.2);
-            padding-bottom: 15px;
-        }
-
-        .institution-name {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #f0fdf4;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .college-name {
-            font-size: 1.1em;
-            color: #bbf7d0;
-            font-style: italic;
-            margin-bottom: 10px;
         }
 
         .course-code {
@@ -95,10 +139,9 @@
         .header h1 {
             font-size: 2.4em;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin: 15px 0;
             color: #f0fdf4;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            font-family: 'Georgia', serif;
         }
 
         .instructor-info {
@@ -108,38 +151,20 @@
             padding: 20px;
             margin-top: 15px;
             backdrop-filter: blur(5px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .instructor-info p {
-            margin: 8px 0;
-            font-size: 1em;
-            line-height: 1.5;
-            color: #bbf7d0;
-        }
-
-        .instructor-info strong {
-            color: #f0fdf4;
-            font-weight: 700;
-        }
-
-        .instructor-highlight {
-            background: linear-gradient(45deg, #84cc16, #a3e635);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .menu-container {
+        .lesson-grid {
             padding: 30px;
-            background: #0f1419;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         .lesson-item {
             background: #1c2128;
-            margin-bottom: 15px;
             border-radius: 10px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
@@ -147,17 +172,6 @@
             border: 2px solid #365314;
             position: relative;
             overflow: hidden;
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .lesson-item:visited {
-            color: inherit;
-        }
-
-        .lesson-item:link {
-            color: inherit;
         }
 
         .lesson-item::before {
@@ -208,39 +222,123 @@
         }
 
         .lesson-title {
-            font-size: 1.25em;
+            font-size: 1.1em;
             font-weight: 600;
             color: #bbf7d0;
             line-height: 1.4;
-            font-family: 'Georgia', serif;
         }
 
-        .lesson-item.active {
-            background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-            color: #f0fdf4;
-            transform: scale(1.02);
-            border-color: #a3e635;
-            box-shadow: 0 10px 30px rgba(132, 204, 22, 0.4);
+        /* Hypothesis Section Styles */
+        .hypothesis-section {
+            background: #0f0f23;
+            background-image: 
+                radial-gradient(at 20% 80%, hsla(120,100%,50%,0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 20%, hsla(240,100%,70%,0.15) 0px, transparent 50%),
+                radial-gradient(at 40% 40%, hsla(300,100%,60%,0.1) 0px, transparent 50%);
+            color: #e2e8f0;
         }
 
-        .lesson-item.active .lesson-number {
-            background: #f0fdf4;
-            color: #84cc16;
-            border-color: #f0fdf4;
-        }
-
-        .lesson-item.active .lesson-title {
-            color: #f0fdf4;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        .progress-bar {
-            margin: 20px 30px;
-            height: 10px;
-            background: #1c2128;
-            border-radius: 5px;
+        .hypothesis-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
             overflow: hidden;
-            border: 2px solid #365314;
+        }
+
+        .hypothesis-header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 50%, #10b981 100%);
+            padding: 35px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hypothesis-header h2 {
+            font-size: 2.8em;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .hypothesis-content {
+            padding: 40px;
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        /* Variables Section Styles */
+        .variables-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+
+        .variables-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .variables-header {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px 20px 0 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .variables-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .variables-content {
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .card h3 {
+            color: #4a5568;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 200px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 1000;
         }
 
         .progress-fill {
@@ -248,54 +346,20 @@
             background: linear-gradient(90deg, #84cc16, #a3e635);
             width: 0%;
             transition: width 0.8s ease;
-            border-radius: 3px;
-            box-shadow: 0 0 10px rgba(132, 204, 22, 0.5);
+            border-radius: 4px;
         }
 
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            padding: 25px 30px 30px;
-            border-top: 2px solid #365314;
-            margin-top: 20px;
-            background: #161b22;
-        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+            }
 
-        .stat-item {
-            text-align: center;
-            background: #1c2128;
-            padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            border: 2px solid #365314;
-            min-width: 120px;
-        }
+            .lesson-grid {
+                grid-template-columns: 1fr;
+            }
 
-        .stat-item:hover {
-            border-color: #84cc16;
-            transform: translateY(-2px);
-            transition: all 0.3s ease;
-        }
-
-        .stat-number {
-            font-size: 2.2em;
-            font-weight: bold;
-            color: #84cc16;
-            display: block;
-            font-family: 'Georgia', serif;
-            text-shadow: 0 0 10px rgba(132, 204, 22, 0.3);
-        }
-
-        .stat-label {
-            font-size: 0.9em;
-            color: #bbf7d0;
-            margin-top: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        @media (max-width: 600px) {
             .lesson-content {
                 padding: 15px;
             }
@@ -308,116 +372,319 @@
             }
             
             .lesson-title {
-                font-size: 1.1em;
+                font-size: 1em;
             }
             
             .header h1 {
                 font-size: 1.8em;
             }
 
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .stat-item {
-                min-width: auto;
+            .hypothesis-header h2, .variables-header h2 {
+                font-size: 2em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="academic-header">
-                <div class="institution-name">Camarines Sur Polytechnic Colleges</div>
-                <div class="college-name">College of Computer Science</div>
-            </div>
-            <div class="course-info">
-                <div class="course-code">IT 318</div>
-                <h1>Quantitative Methods IT 318</h1>
-                <div class="instructor-info">
-                    <p><strong>Instructor:</strong> <span class="instructor-highlight">SDBS MANLAPAZ</span></p>
-                    <p><strong>School Year:</strong> 2025-2026</p>
-                    <p><strong>Subject:</strong> <span class="instructor-highlight">Quantitative Methods</span></p>
-                </div>
-            </div>
+    <!-- Fixed Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <div class="nav-brand">IT 318 - Quantitative Methods</div>
+            <ul class="nav-menu">
+                <li class="nav-item active" onclick="scrollToSection('menu')">Menu</li>
+                <li class="nav-item" onclick="scrollToSection('hypothesis')">Hypothesis</li>
+                <li class="nav-item" onclick="scrollToSection('variables')">Variables</li>
+            </ul>
         </div>
+    </nav>
 
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-
-        <div class="menu-container">
-            <div class="lesson-item" onclick="selectLesson(this, 0)">
-                <div class="lesson-content">
-                    <div class="lesson-number">1</div>
-                    <div class="lesson-title">Quantitative Research as a Method of Scientific Inquiry</div>
-                </div>
-            </div>
-
-            <div class="lesson-item" onclick="selectLesson(this, 1)">
-                <div class="lesson-content">
-                    <div class="lesson-number">2</div>
-                    <div class="lesson-title">Formulating Research Problems and Hypothesis</div>
-                </div>
-            </div>
-
-            <div class="lesson-item" onclick="lesson-1">
-                <div class="lesson-content">
-                    <div class="lesson-number">3</div>
-                    <div class="lesson-title">Variables and their Measurement</div>
-                </div>
-            </div>
-
-            <div class="lesson-item" onclick="selectLesson(this, 3)">
-                <div class="lesson-content">
-                    <div class="lesson-number">4</div>
-                    <div class="lesson-title">Research Methods and Data Collection Strategies</div>
-                </div>
-            </div>
-
-            <div class="lesson-item" onclick="selectLesson(this, 4)">
-                <div class="lesson-content">
-                    <div class="lesson-number">5</div>
-                    <div class="lesson-title">Selecting a Sample from the Population</div>
-                </div>
-            </div>
-
-            <div class="lesson-item" onclick="selectLesson(this, 5)">
-                <div class="lesson-content">
-                    <div class="lesson-number">6</div>
-                    <div class="lesson-title">Generalizing from the Sample to the Population</div>
-                </div>
-            </div>
-
-            <div class="lesson-item" onclick="selectLesson(this, 6)">
-                <div class="lesson-content">
-                    <div class="lesson-number">7</div>
-                    <div class="lesson-title">Data Analysis for Descriptive Statistics</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="stats">
-            <div class="stat-item">
-                <span class="stat-number" id="totalLessons">7</span>
-                <div class="stat-label">Total Lessons</div>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number" id="completedLessons">0</span>
-                <div class="stat-label">Completed</div>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number" id="progressPercent">0%</span>
-                <div class="stat-label">Progress</div>
-            </div>
-        </div>
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
     </div>
+
+    <!-- Menu Section -->
+    <section id="menu" class="lesson-section menu-section">
+        <div class="container">
+            <div class="menu-container">
+                <div class="header">
+                    <div class="course-info">
+                        <div class="course-code">IT 318</div>
+                        <h1>Quantitative Methods</h1>
+                        <div class="instructor-info">
+                            <p><strong>Instructor:</strong> SDBS MANLAPAZ</p>
+                            <p><strong>School Year:</strong> 2025-2026</p>
+                            <p><strong>Institution:</strong> Camarines Sur Polytechnic Colleges</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-grid">
+                    <div class="lesson-item" onclick="selectLesson(this, 0)">
+                        <div class="lesson-content">
+                            <div class="lesson-number">1</div>
+                            <div class="lesson-title">Quantitative Research as a Method of Scientific Inquiry</div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-item" onclick="selectLesson(this, 1); scrollToSection('hypothesis')">
+                        <div class="lesson-content">
+                            <div class="lesson-number">2</div>
+                            <div class="lesson-title">Formulating Research Problems and Hypothesis</div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-item" onclick="selectLesson(this, 2); scrollToSection('variables')">
+                        <div class="lesson-content">
+                            <div class="lesson-number">3</div>
+                            <div class="lesson-title">Variables and their Measurement</div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-item" onclick="selectLesson(this, 3)">
+                        <div class="lesson-content">
+                            <div class="lesson-number">4</div>
+                            <div class="lesson-title">Research Methods and Data Collection Strategies</div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-item" onclick="selectLesson(this, 4)">
+                        <div class="lesson-content">
+                            <div class="lesson-number">5</div>
+                            <div class="lesson-title">Selecting a Sample from the Population</div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-item" onclick="selectLesson(this, 5)">
+                        <div class="lesson-content">
+                            <div class="lesson-number">6</div>
+                            <div class="lesson-title">Generalizing from the Sample to the Population</div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-item" onclick="selectLesson(this, 6)">
+                        <div class="lesson-content">
+                            <div class="lesson-number">7</div>
+                            <div class="lesson-title">Data Analysis for Descriptive Statistics</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hypothesis Section -->
+    <section id="hypothesis" class="lesson-section hypothesis-section">
+        <div class="container">
+            <div class="hypothesis-container">
+                <div class="hypothesis-header">
+                    <h2>Research Problems & Hypotheses</h2>
+                    <p>Interactive Learning Experience</p>
+                </div>
+                
+                <div class="hypothesis-content">
+                    <div class="card">
+                        <h3>Sources of Research Problems</h3>
+                        <p>Research problems emerge from various sources in our academic and professional environments. Understanding these sources helps researchers identify meaningful questions worth investigating.</p>
+                        
+                        <h4>Major Sources:</h4>
+                        <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong>Literature Gaps:</strong> Unresolved questions or contradictions in existing research</li>
+                            <li><strong>Professional Practice:</strong> Real-world challenges and problems in your field</li>
+                            <li><strong>Theory Development:</strong> Testing or extending existing theories</li>
+                            <li><strong>Technology & Innovation:</strong> New tools creating new research possibilities</li>
+                            <li><strong>Social Issues:</strong> Current societal problems needing investigation</li>
+                            <li><strong>Personal Curiosity:</strong> Questions arising from observations and experiences</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Basic Criteria for Research Problem Formulation</h3>
+                        <p>Strong research problems meet specific criteria that ensure they're worth investigating and feasible to study.</p>
+                        
+                        <h4>Essential Criteria:</h4>
+                        <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong>Significance:</strong> The problem should matter to the field or society</li>
+                            <li><strong>Feasibility:</strong> Possible to investigate with available resources and time</li>
+                            <li><strong>Clarity:</strong> Clearly defined and specific, not vague or overly broad</li>
+                            <li><strong>Originality:</strong> Adds something new to existing knowledge</li>
+                            <li><strong>Ethical:</strong> Can be studied without causing harm</li>
+                            <li><strong>Researchable:</strong> Can be answered through systematic investigation</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Types of Hypotheses</h3>
+                        <p>A hypothesis is a testable prediction about the relationship between variables. Different types serve different research purposes.</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                            <div>
+                                <h4 style="color: #8b5cf6;">Directional vs. Non-directional</h4>
+                                <p><strong>Directional:</strong> Predicts the direction of relationship</p>
+                                <p><em>Example:</em> "Students who study more will score higher"</p>
+                                <p><strong>Non-directional:</strong> Predicts a relationship exists but not the direction</p>
+                                <p><em>Example:</em> "There is a relationship between study time and test scores"</p>
+                            </div>
+                            <div>
+                                <h4 style="color: #8b5cf6;">Null vs. Alternative</h4>
+                                <p><strong>Null (H₀):</strong> No relationship exists</p>
+                                <p><em>Example:</em> "Study time has no effect on test scores"</p>
+                                <p><strong>Alternative (H₁):</strong> A relationship exists</p>
+                                <p><em>Example:</em> "Study time affects test scores"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Variables Section -->
+    <section id="variables" class="lesson-section variables-section">
+        <div class="container">
+            <div class="variables-container">
+                <div class="variables-header">
+                    <h2>Variables and their Measurement</h2>
+                    <p>An Interactive Learning Experience</p>
+                </div>
+                
+                <div class="variables-content">
+                    <div class="card">
+                        <h3>Learning Objectives</h3>
+                        <p>By the end of this lesson, you will be able to:</p>
+                        <ul>
+                            <li>Define and explain the concept of variables in research</li>
+                            <li>Classify different types of variables</li>
+                            <li>Understand scales of measurement and their properties</li>
+                            <li>Identify different types of measuring instruments</li>
+                            <li>Evaluate validity and reliability of measuring instruments</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Defining and Measuring Concepts and Variables</h3>
+                        
+                        <h4>What is a Variable?</h4>
+                        <p>A <strong>variable</strong> is any characteristic, property, or attribute of an entity that can vary or take on different values. Variables are the building blocks of research and measurement.</p>
+                        
+                        <div style="background: #f0f4f8; border-left: 4px solid #667eea; padding: 20px; margin: 15px 0; border-radius: 0 8px 8px 0;">
+                            <strong>Examples of Variables:</strong>
+                            <ul>
+                                <li><strong>Age:</strong> Can range from 0 to 100+ years</li>
+                                <li><strong>Gender:</strong> Male, Female, Non-binary, etc.</li>
+                                <li><strong>Income:</strong> Various monetary amounts</li>
+                                <li><strong>Academic Performance:</strong> GPA, test scores</li>
+                                <li><strong>Attitude:</strong> Positive, neutral, negative</li>
+                            </ul>
+                        </div>
+                        
+                        <h4>Concept vs. Variable</h4>
+                        <p>A <strong>concept</strong> is an abstract idea or mental construct (like "intelligence" or "satisfaction"). A <strong>variable</strong> is the operational way we measure that concept (like "IQ score" or "rating on a 1-10 scale").</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Scales of Measurement</h3>
+                        <p>Understanding scales of measurement is crucial for choosing appropriate statistical analyses and interpreting results correctly.</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px;">
+                                <h4>Nominal Scale</h4>
+                                <p><strong>Categories with no inherent order</strong></p>
+                                <ul>
+                                    <li>Examples: Gender, Race, Religion</li>
+                                    <li>Properties: Identity only</li>
+                                    <li>Statistics: Mode, frequency</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px;">
+                                <h4>Ordinal Scale</h4>
+                                <p><strong>Categories with meaningful order</strong></p>
+                                <ul>
+                                    <li>Examples: Education level, Satisfaction ratings</li>
+                                    <li>Properties: Identity + Order</li>
+                                    <li>Statistics: Median, percentiles</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px;">
+                                <h4>Interval Scale</h4>
+                                <p><strong>Equal intervals, no true zero</strong></p>
+                                <ul>
+                                    <li>Examples: Temperature (°C/°F), IQ scores</li>
+                                    <li>Properties: Identity + Order + Equal intervals</li>
+                                    <li>Statistics: Mean, standard deviation</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px;">
+                                <h4>Ratio Scale</h4>
+                                <p><strong>Equal intervals with true zero point</strong></p>
+                                <ul>
+                                    <li>Examples: Height, Weight, Income, Age</li>
+                                    <li>Properties: All properties + True zero</li>
+                                    <li>Statistics: All operations valid</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Validity and Reliability</h3>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                            <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 20px; border-radius: 10px;">
+                                <h4>VALIDITY</h4>
+                                <p><strong>Does the instrument measure what it claims to measure?</strong></p>
+                                
+                                <h5>Types of Validity:</h5>
+                                <ul>
+                                    <li><strong>Content Validity:</strong> Covers all aspects of the concept</li>
+                                    <li><strong>Construct Validity:</strong> Measures the theoretical construct</li>
+                                    <li><strong>Criterion Validity:</strong> Predicts or correlates with other measures</li>
+                                    <li><strong>Face Validity:</strong> Appears to measure what it should</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; padding: 20px; border-radius: 10px;">
+                                <h4>RELIABILITY</h4>
+                                <p><strong>Does the instrument produce consistent results?</strong></p>
+                                
+                                <h5>Types of Reliability:</h5>
+                                <ul>
+                                    <li><strong>Test-Retest:</strong> Consistency over time</li>
+                                    <li><strong>Internal Consistency:</strong> Items measure same construct</li>
+                                    <li><strong>Inter-rater:</strong> Agreement between raters</li>
+                                    <li><strong>Split-Half:</strong> Correlation between test halves</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
         let completedLessons = new Set();
         const totalLessons = 7;
+        let currentSection = 'menu';
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentSection = sectionId;
+            updateProgress();
+        }
 
         function selectLesson(element, index) {
             // Remove active class from all lessons
@@ -434,23 +701,68 @@
             // Update progress
             updateProgress();
 
-            // Simulate lesson loading
+            // Remove active state after animation
             setTimeout(() => {
                 element.classList.remove('active');
-            }, 3000);
+            }, 2000);
         }
 
         function updateProgress() {
-            const completed = completedLessons.size;
-            const percentage = Math.round((completed / totalLessons) * 100);
-
+            let progressPercentage = 0;
+            
+            // Base progress on completed lessons and current section
+            const lessonProgress = (completedLessons.size / totalLessons) * 70;
+            
+            // Add section progress
+            let sectionProgress = 0;
+            switch(currentSection) {
+                case 'menu': sectionProgress = 10; break;
+                case 'hypothesis': sectionProgress = 20; break;
+                case 'variables': sectionProgress = 30; break;
+            }
+            
+            progressPercentage = lessonProgress + sectionProgress;
+            
             // Update progress bar
-            document.getElementById('progressFill').style.width = percentage + '%';
-
-            // Update stats
-            document.getElementById('completedLessons').textContent = completed;
-            document.getElementById('progressPercent').textContent = percentage + '%';
+            document.getElementById('progressFill').style.width = Math.min(100, progressPercentage) + '%';
         }
+
+        // Track scrolling for navigation updates
+        window.addEventListener('scroll', function() {
+            const sections = ['menu', 'hypothesis', 'variables'];
+            let currentSectionId = 'menu';
+            
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                const rect = section.getBoundingClientRect();
+                
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    currentSectionId = sectionId;
+                }
+            });
+            
+            if (currentSectionId !== currentSection) {
+                currentSection = currentSectionId;
+                
+                // Update navigation
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Find and activate the correct nav item
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    const itemText = item.textContent.toLowerCase();
+                    if ((currentSectionId === 'menu' && itemText.includes('menu')) ||
+                        (currentSectionId === 'hypothesis' && itemText.includes('hypothesis')) ||
+                        (currentSectionId === 'variables' && itemText.includes('variables'))) {
+                        item.classList.add('active');
+                    }
+                });
+                
+                updateProgress();
+            }
+        });
 
         // Add some initial animation
         window.addEventListener('load', function() {
@@ -467,6 +779,49 @@
                     }, 50);
                 }, index * 100);
             });
+            
+            // Initialize progress
+            updateProgress();
+        });
+
+        // Add intersection observer for better section tracking
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    if (sectionId !== currentSection) {
+                        currentSection = sectionId;
+                        
+                        // Update navigation
+                        document.querySelectorAll('.nav-item').forEach(item => {
+                            item.classList.remove('active');
+                        });
+                        
+                        const navItems = document.querySelectorAll('.nav-item');
+                        navItems.forEach(item => {
+                            const itemText = item.textContent.toLowerCase();
+                            if ((sectionId === 'menu' && itemText.includes('menu')) ||
+                                (sectionId === 'hypothesis' && itemText.includes('hypothesis')) ||
+                                (sectionId === 'variables' && itemText.includes('variables'))) {
+                                item.classList.add('active');
+                            }
+                        });
+                        
+                        updateProgress();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.lesson-section').forEach(section => {
+            observer.observe(section);
         });
     </script>
 </body>
