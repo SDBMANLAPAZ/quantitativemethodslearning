@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantitative Methods IT 318 - Interactive Learning</title>
+    <meta name="description" content="Interactive learning platform for IT 318 Quantitative Methods course">
     <style>
         * {
             margin: 0;
@@ -16,10 +17,11 @@
         }
 
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: linear-gradient(135deg, #1a2e05 0%, #365314 30%, #4d7c0f 70%, #65a30d 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 70%, #475569 100%);
             color: #333;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
         .container {
@@ -34,9 +36,10 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(15, 20, 25, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 3px solid #65a30d;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid #3b82f6;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .nav-container {
@@ -49,61 +52,115 @@
         }
 
         .nav-brand {
-            color: #84cc16;
-            font-size: 1.2em;
-            font-weight: bold;
+            color: #60a5fa;
+            font-size: 1.3em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .nav-menu {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             list-style: none;
         }
 
         .nav-item {
             cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            color: #bbf7d0;
-            font-size: 0.9em;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #cbd5e1;
+            font-size: 0.95em;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
         }
 
         .nav-item:hover {
-            background: rgba(132, 204, 22, 0.2);
-            color: #84cc16;
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
         .nav-item.active {
-            background: #84cc16;
-            color: #0f1419;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Mobile Navigation */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #60a5fa;
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Back to Menu Button */
+        .back-to-menu {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(59, 130, 246, 0.8);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .back-to-menu:hover {
+            background: rgba(59, 130, 246, 1);
+            transform: translateY(-2px);
         }
 
         /* Main Content Sections */
         .lesson-section {
             min-height: 100vh;
             padding: 100px 20px 50px;
+            position: relative;
         }
 
         /* Menu Section */
         .menu-section {
-            background: linear-gradient(135deg, #1a2e05 0%, #365314 30%, #4d7c0f 70%, #65a30d 100%);
-            color: #f0fdf4;
-        }
-
-        .menu-container {
-            background: #0f1419;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            border: 3px solid #65a30d;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 70%, #475569 100%);
+            color: #f1f5f9;
         }
 
         .header {
-            background: linear-gradient(135deg, #365314 0%, #4d7c0f 50%, #65a30d 100%);
-            color: #f0fdf4;
-            padding: 25px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            color: #f1f5f9;
+            padding: 40px 30px;
             position: relative;
+            overflow: hidden;
         }
 
         .header::before {
@@ -113,8 +170,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23bbf7d0' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
-            opacity: 0.3;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M20 20c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zm16 0c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16z'/%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.1;
         }
 
         .course-info {
@@ -124,54 +181,62 @@
         }
 
         .course-code {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #f0fdf4;
-            margin-bottom: 8px;
-            letter-spacing: 3px;
-            background: rgba(132, 204, 22, 0.3);
-            padding: 8px 15px;
-            border-radius: 25px;
+            font-size: 1.4em;
+            font-weight: 800;
+            color: #f1f5f9;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 25px;
+            border-radius: 30px;
             display: inline-block;
-            border: 2px solid #84cc16;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .header h1 {
-            font-size: 2.4em;
-            font-weight: 700;
-            margin: 15px 0;
-            color: #f0fdf4;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2.8em;
+            font-weight: 800;
+            margin: 20px 0;
+            color: #f1f5f9;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
 
         .instructor-info {
-            background: rgba(132, 204, 22, 0.2);
-            border: 2px solid #84cc16;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 15px;
-            backdrop-filter: blur(5px);
-            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+            max-width: 650px;
             margin-left: auto;
             margin-right: auto;
         }
 
+        .instructor-info p {
+            margin: 8px 0;
+            font-size: 1.05em;
+        }
+
         .lesson-grid {
-            padding: 30px;
+            padding: 40px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
         }
 
         .lesson-item {
-            background: #1c2128;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            border: 2px solid #365314;
+            border: 1px solid rgba(59, 130, 246, 0.2);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
         .lesson-item::before {
@@ -181,7 +246,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(132, 204, 22, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
             transition: left 0.6s ease;
         }
 
@@ -190,14 +255,19 @@
         }
 
         .lesson-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(132, 204, 22, 0.3);
-            border-color: #84cc16;
-            background: #22272e;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .lesson-item.completed {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
         }
 
         .lesson-content {
-            padding: 20px;
+            padding: 25px;
             display: flex;
             align-items: center;
             position: relative;
@@ -205,112 +275,104 @@
         }
 
         .lesson-number {
-            background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-            color: #f0fdf4;
-            width: 50px;
-            height: 50px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #f1f5f9;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1.2em;
+            font-weight: 700;
+            font-size: 1.3em;
             margin-right: 20px;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(132, 204, 22, 0.4);
-            border: 3px solid #84cc16;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lesson-item.completed .lesson-number {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
         }
 
         .lesson-title {
-            font-size: 1.1em;
+            font-size: 1.15em;
             font-weight: 600;
-            color: #bbf7d0;
-            line-height: 1.4;
+            color: #cbd5e1;
+            line-height: 1.5;
         }
 
-        /* Hypothesis Section Styles */
-        .hypothesis-section {
-            background: #0f0f23;
-            background-image: 
-                radial-gradient(at 20% 80%, hsla(120,100%,50%,0.15) 0px, transparent 50%),
-                radial-gradient(at 80% 20%, hsla(240,100%,70%,0.15) 0px, transparent 50%),
-                radial-gradient(at 40% 40%, hsla(300,100%,60%,0.1) 0px, transparent 50%);
-            color: #e2e8f0;
+        .lesson-item:hover .lesson-title {
+            color: #f1f5f9;
         }
 
-        .hypothesis-container {
-            max-width: 1000px;
+        /* Section Styles */
+        .section-container {
+            max-width: 1100px;
             margin: 0 auto;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(17, 24, 39, 0.9);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(148, 163, 184, 0.1);
-            border-radius: 24px;
+            border-radius: 25px;
             box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                0 30px 60px rgba(0, 0, 0, 0.3),
                 0 0 0 1px rgba(255, 255, 255, 0.05);
             overflow: hidden;
         }
 
-        .hypothesis-header {
-            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 50%, #10b981 100%);
-            padding: 35px 40px;
+        .section-header {
+            background: linear-gradient(135deg, #7c3aed 0%, #2563eb 50%, #0891b2 100%);
+            padding: 40px;
             text-align: center;
             color: white;
             position: relative;
-        }
-
-        .hypothesis-header h2 {
-            font-size: 2.8em;
-            margin-bottom: 12px;
-            font-weight: 800;
-        }
-
-        .hypothesis-content {
-            padding: 40px;
-            background: rgba(15, 23, 42, 0.4);
-        }
-
-        /* Variables Section Styles */
-        .variables-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-        }
-
-        .variables-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             overflow: hidden;
         }
 
-        .variables-header {
-            text-align: center;
-            color: white;
-            padding: 30px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px 20px 0 0;
-            backdrop-filter: blur(10px);
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpolygon points='15,0 30,15 15,30 0,15'/%3E%3C/g%3E%3C/svg%3E") repeat;
         }
 
-        .variables-header h2 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        .section-header h2 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            font-weight: 800;
+            position: relative;
+            z-index: 2;
         }
 
-        .variables-content {
-            padding: 40px;
+        .section-header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
         }
 
+        .section-content {
+            padding: 50px 40px;
+            background: rgba(17, 24, 39, 0.6);
+            color: #e2e8f0;
+        }
+
+        /* Card Styles */
         .card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 25px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transform: translateY(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 35px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transform: translateY(30px);
             opacity: 0;
-            animation: slideUp 0.6s ease-out forwards;
+            animation: slideUp 0.8s ease-out forwards;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #333;
         }
 
         @keyframes slideUp {
@@ -321,54 +383,200 @@
         }
 
         .card h3 {
-            color: #4a5568;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
+            color: #374151;
+            border-bottom: 3px solid #7c3aed;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 1.9rem;
+            font-weight: 700;
+        }
+
+        .card h4 {
+            color: #4b5563;
+            margin: 20px 0 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .card h5 {
+            color: #6b7280;
+            margin: 15px 0 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .card ul {
+            margin: 15px 0;
+            padding-left: 25px;
+            line-height: 1.8;
+        }
+
+        .card li {
+            margin: 8px 0;
+            color: #4b5563;
+        }
+
+        .card p {
+            margin: 15px 0;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        /* Interactive Elements */
+        .approach-tab {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(99, 102, 241, 0.2);
+            color: #4338ca;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 2px;
+        }
+
+        .approach-tab.active,
+        .approach-tab:hover {
+            background: linear-gradient(135deg, #4338ca, #6366f1);
+            color: white;
+        }
+
+        .approach-content {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .approach-content.active {
+            display: block;
+        }
+
+        /* Quiz Styles */
+        .quiz-option {
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
+            margin: 8px 0;
+            color: #374151;
+        }
+
+        .quiz-option:hover {
+            border-color: #3b82f6;
+            background: #f8fafc;
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-color: #10b981;
+        }
+
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .quiz-feedback {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
         }
 
         /* Progress Bar */
         .progress-bar {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 200px;
-            height: 8px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
+            bottom: 25px;
+            right: 25px;
+            width: 220px;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
             overflow: hidden;
             z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #84cc16, #a3e635);
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
             width: 0%;
-            transition: width 0.8s ease;
-            border-radius: 4px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .progress-text {
+            position: fixed;
+            bottom: 40px;
+            right: 25px;
+            color: #cbd5e1;
+            font-size: 0.9em;
+            font-weight: 600;
+            z-index: 1000;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 23, 42, 0.98);
                 flex-direction: column;
-                gap: 10px;
+                gap: 0;
+                padding: 20px;
+                transform: translateY(-100vh);
+                transition: transform 0.3s ease;
+                border-top: 1px solid rgba(59, 130, 246, 0.3);
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .nav-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .nav-item {
+                padding: 15px 20px;
+                border-radius: 10px;
+                margin: 5px 0;
             }
 
             .lesson-grid {
                 grid-template-columns: 1fr;
+                padding: 30px 20px;
             }
 
             .lesson-content {
-                padding: 15px;
+                padding: 20px;
             }
             
             .lesson-number {
-                width: 40px;
-                height: 40px;
+                width: 45px;
+                height: 45px;
                 margin-right: 15px;
-                font-size: 1em;
+                font-size: 1.1em;
             }
             
             .lesson-title {
@@ -376,12 +584,66 @@
             }
             
             .header h1 {
-                font-size: 1.8em;
+                font-size: 2.2em;
             }
 
-            .hypothesis-header h2, .variables-header h2 {
-                font-size: 2em;
+            .section-header h2 {
+                font-size: 2.2em;
             }
+
+            .section-content {
+                padding: 30px 20px;
+            }
+
+            .card {
+                padding: 25px;
+                margin: 20px 0;
+            }
+
+            .progress-bar {
+                width: 180px;
+                right: 15px;
+                bottom: 15px;
+            }
+
+            .progress-text {
+                right: 15px;
+                bottom: 30px;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mb-4 { margin-bottom: 20px; }
+        .mt-4 { margin-top: 20px; }
+        
+        /* Grid Utilities */
+        .grid {
+            display: grid;
+        }
+        
+        .grid-cols-auto {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        
+        .gap-4 {
+            gap: 20px;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out forwards;
         }
     </style>
 </head>
@@ -390,8 +652,14 @@
     <nav class="nav-header">
         <div class="nav-container">
             <div class="nav-brand">IT 318 - Quantitative Methods</div>
-            <ul class="nav-menu">
-                <li class="nav-item active" onclick="scrollToSection('menu')">Menu</li>
+            <div class="nav-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item active" onclick="scrollToSection('menu')">Main Menu</li>
+                <li class="nav-item" onclick="scrollToSection('quantitative-inquiry')">Quantitative Research</li>
                 <li class="nav-item" onclick="scrollToSection('hypothesis')">Hypothesis</li>
                 <li class="nav-item" onclick="scrollToSection('variables')">Variables</li>
             </ul>
@@ -402,70 +670,303 @@
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
+    <div class="progress-text" id="progressText">Progress: 0%</div>
 
-    <!-- Menu Section -->
+    <!-- Main Menu Section -->
     <section id="menu" class="lesson-section menu-section">
         <div class="container">
-            <div class="menu-container">
-                <div class="header">
-                    <div class="course-info">
-                        <div class="course-code">IT 318</div>
-                        <h1>Quantitative Methods</h1>
-                        <div class="instructor-info">
-                            <p><strong>Instructor:</strong> SDBS MANLAPAZ</p>
-                            <p><strong>School Year:</strong> 2025-2026</p>
-                            <p><strong>Institution:</strong> Camarines Sur Polytechnic Colleges</p>
-                        </div>
+            <!-- Course Header -->
+            <div class="text-center mb-4" style="padding: 40px 20px;">
+                <h1 style="font-size: 3.5em; font-weight: 800; color: #f1f5f9; margin: 0; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); letter-spacing: 1px;">IT 318</h1>
+                <h2 style="font-size: 2.8em; font-weight: 700; color: #60a5fa; margin: 10px 0; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);">Quantitative Methods</h2>
+                <p style="font-size: 1.4em; color: #cbd5e1; margin: 20px 0; font-weight: 500;">Interactive Learning Platform</p>
+                
+                <div style="background: rgba(15, 23, 42, 0.8); border-radius: 15px; padding: 25px; margin: 30px auto; max-width: 600px; backdrop-filter: blur(20px); border: 1px solid rgba(59, 130, 246, 0.3);">
+                    <p style="color: #f1f5f9; margin: 8px 0; font-size: 1.1em;"><strong>Instructor:</strong> SDBS MANLAPAZ</p>
+                    <p style="color: #f1f5f9; margin: 8px 0; font-size: 1.1em;"><strong>Institution:</strong> Camarines Sur Polytechnic Colleges</p>
+                    <p style="color: #f1f5f9; margin: 8px 0; font-size: 1.1em;"><strong>School Year:</strong> 2025-2026</p>
+                </div>
+            </div>
+
+            <!-- Course Learning Modules -->
+            <div class="text-center mb-4">
+                <h2 style="color: #60a5fa; margin-bottom: 20px; font-size: 2.5em; font-weight: 700;">Course Learning Modules</h2>
+                <p style="color: #cbd5e1; font-size: 1.2em; max-width: 800px; margin: 0 auto; line-height: 1.7;">Select any topic below to begin your interactive learning journey. Each module contains comprehensive content, examples, and interactive elements to enhance your understanding.</p>
+            </div>
+
+            <!-- Learning Modules Grid -->
+            <div class="lesson-grid">
+                <div class="lesson-item" onclick="selectLesson(this, 0); scrollToSection('quantitative-inquiry')">
+                    <div class="lesson-content">
+                        <div class="lesson-number">1</div>
+                        <div class="lesson-title">Quantitative Research as a Method of Scientific Inquiry</div>
                     </div>
                 </div>
 
-                <div class="lesson-grid">
-                    <div class="lesson-item" onclick="selectLesson(this, 0)">
-                        <div class="lesson-content">
-                            <div class="lesson-number">1</div>
-                            <div class="lesson-title">Quantitative Research as a Method of Scientific Inquiry</div>
+                <div class="lesson-item" onclick="selectLesson(this, 1); scrollToSection('hypothesis')">
+                    <div class="lesson-content">
+                        <div class="lesson-number">2</div>
+                        <div class="lesson-title">Formulating Research Problems and Hypothesis</div>
+                    </div>
+                </div>
+
+                <div class="lesson-item" onclick="selectLesson(this, 2); scrollToSection('variables')">
+                    <div class="lesson-content">
+                        <div class="lesson-number">3</div>
+                        <div class="lesson-title">Variables and their Measurement</div>
+                    </div>
+                </div>
+
+                <div class="lesson-item" onclick="selectLesson(this, 3)">
+                    <div class="lesson-content">
+                        <div class="lesson-number">4</div>
+                        <div class="lesson-title">Research Methods and Data Collection Strategies</div>
+                    </div>
+                </div>
+
+                <div class="lesson-item" onclick="selectLesson(this, 4)">
+                    <div class="lesson-content">
+                        <div class="lesson-number">5</div>
+                        <div class="lesson-title">Selecting a Sample from the Population</div>
+                    </div>
+                </div>
+
+                <div class="lesson-item" onclick="selectLesson(this, 5)">
+                    <div class="lesson-content">
+                        <div class="lesson-number">6</div>
+                        <div class="lesson-title">Generalizing from the Sample to the Population</div>
+                    </div>
+                </div>
+
+                <div class="lesson-item" onclick="selectLesson(this, 6)">
+                    <div class="lesson-content">
+                        <div class="lesson-number">7</div>
+                        <div class="lesson-title">Data Analysis for Descriptive Statistics</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Objectives -->
+            <div class="text-center mt-4" style="padding: 35px; background: rgba(15, 23, 42, 0.8); border-radius: 20px; backdrop-filter: blur(20px); border: 1px solid rgba(59, 130, 246, 0.3);">
+                <h3 style="color: #60a5fa; margin-bottom: 20px; font-size: 1.8em; font-weight: 700;">Course Objectives</h3>
+                <p style="color: #cbd5e1; max-width: 900px; margin: 0 auto; line-height: 1.8; font-size: 1.1em;">This course emphasizes the practical application of quantitative reasoning and data analysis. Students will master core topics including descriptive measures, measures of association, sampling techniques, and mathematical tools for decision-making. The culminating project involves conducting a meta-analysis on IT-related research papers.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quantitative Research Section -->
+    <section id="quantitative-inquiry" class="lesson-section" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 30%, #4338ca 70%, #6366f1 100%); color: #e2e8f0;">
+        <div class="container">
+            <div class="section-container">
+                <div class="section-header">
+                    <button onclick="scrollToSection('menu')" class="back-to-menu">← Back to Menu</button>
+                    <h2>Quantitative Research as Scientific Inquiry</h2>
+                    <p>Exploring systematic approaches to knowledge building</p>
+                </div>
+
+                <div class="section-content">
+                    <div class="card">
+                        <h3>What is Quantitative Research?</h3>
+                        <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #0891b2; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                            <p style="color: #0c4a6e; font-size: 1.1em; font-weight: 500;">
+                                A <strong>systematic investigation of phenomena</strong> by gathering quantifiable data and performing statistical, mathematical, or computational techniques to analyze it. It focuses on measuring variables, testing hypotheses, and identifying patterns or relationships in a structured and objective way.
+                            </p>
                         </div>
                     </div>
 
-                    <div class="lesson-item" onclick="selectLesson(this, 1); scrollToSection('hypothesis')">
-                        <div class="lesson-content">
-                            <div class="lesson-number">2</div>
-                            <div class="lesson-title">Formulating Research Problems and Hypothesis</div>
+                    <div class="card">
+                        <h3>Different Approaches to Research Inquiry</h3>
+                        <div class="mt-4">
+                            <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 25px;">
+                                <button class="approach-tab active" onclick="showApproach('quantitative', this)">Quantitative</button>
+                                <button class="approach-tab" onclick="showApproach('qualitative', this)">Qualitative</button>
+                                <button class="approach-tab" onclick="showApproach('mixed', this)">Mixed Methods</button>
+                                <button class="approach-tab" onclick="showApproach('action', this)">Action Research</button>
+                            </div>
+
+                            <!-- Approach Content -->
+                            <div id="quantitative-content" class="approach-content active">
+                                <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 25px; border-radius: 15px; border: 2px solid #3b82f6;">
+                                    <h4 style="color: #1e40af; margin-bottom: 15px;">1. Quantitative Research</h4>
+                                    <p style="color: #1d4ed8; margin-bottom: 15px;"><strong>Purpose:</strong> To test hypotheses, quantify variables, and generalize results from a sample to a population.</p>
+                                    
+                                    <div style="margin: 20px 0;">
+                                        <h5 style="color: #1e40af;">Characteristics:</h5>
+                                        <ul style="color: #1d4ed8; line-height: 1.6;">
+                                            <li>Uses numerical data</li>
+                                            <li>Emphasizes objectivity, measurement, and statistical analysis</li>
+                                            <li>Often employs structured tools (e.g., surveys, experiments)</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div style="margin: 20px 0;">
+                                        <h5 style="color: #1e40af;">Methods:</h5>
+                                        <ul style="color: #1d4ed8; line-height: 1.6;">
+                                            <li>Surveys</li>
+                                            <li>Experiments</li>
+                                            <li>Longitudinal or cross-sectional studies</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 10px;">
+                                        <strong style="color: #1e40af;">Example:</strong>
+                                        <p style="color: #1d4ed8; margin: 5px 0;">Measuring the effect of a new teaching method on student test scores using pre- and post-tests.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="qualitative-content" class="approach-content">
+                                <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 25px; border-radius: 15px; border: 2px solid #10b981;">
+                                    <h4 style="color: #047857; margin-bottom: 15px;">2. Qualitative Research</h4>
+                                    <p style="color: #059669; margin-bottom: 15px;"><strong>Purpose:</strong> To explore meanings, experiences, and social phenomena in depth.</p>
+                                    
+                                    <div style="margin: 20px 0;">
+                                        <h5 style="color: #047857;">Characteristics:</h5>
+                                        <ul style="color: #059669; line-height: 1.6;">
+                                            <li>Uses non-numerical data (words, images, observations)</li>
+                                            <li>Focuses on context, interpretation, and understanding</li>
+                                            <li>Flexible and iterative design</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div style="margin: 20px 0;">
+                                        <h5 style="color: #047857;">Methods:</h5>
+                                        <ul style="color: #059669; line-height: 1.6;">
+                                            <li>Interviews</li>
+                                            <li>Focus groups</li>
+                                            <li>Ethnography</li>
+                                            <li>Case studies</li>
+                                            <li>Narrative analysis</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 10px;">
+                                        <strong style="color: #047857;">Example:</strong>
+                                        <p style="color: #059669; margin: 5px 0;">Interviewing cancer survivors to understand their emotional journey during treatment.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="mixed-content" class="approach-content">
+                                <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 25px; border-radius: 15px; border: 2px solid #f59e0b;">
+                                    <h4 style="color: #92400e; margin-bottom: 15px;">3. Mixed Methods Research</h4>
+                                    <p style="color: #b45309; margin-bottom: 15px;"><strong>Purpose:</strong> To combine strengths of both quantitative and qualitative approaches for a more comprehensive understanding.</p>
+                                    
+                                    <div style="margin: 20px 0;">
+                                        <h5 style="color: #92400e;">Characteristics:</h5>
+                                        <ul style="color: #b45309; line-height: 1.6;">
+                                            <li>Integrates numerical and textual data</li>
+                                            <li>Can be sequential (one phase follows another) or concurrent (both collected simultaneously)</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div style="margin: 20px 0;">
+                                        <h5 style="color: #92400e;">Designs:</h5>
+                                        <ul style="color: #b45309; line-height: 1.6;">
+                                            <li><strong>Explanatory:</strong> quant → qual</li>
+                                            <li><strong>Exploratory:</strong> qual → quant</li>
+                                            <li><strong>Convergent:</strong> parallel integration</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div style="background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 10px;">
+                                        <strong style="color: #92400e;">Example:</strong>
+                                        <p style="color: #b45309; margin: 5px 0;">First conducting surveys to measure stress levels among teachers, then interviewing a subset to explore causes in depth.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="action-content" class="approach-content">
+                                <div style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); padding: 25px; border-radius: 15px; border: 2px solid #ec4899;">
+                                    <h4 style="color: #be185d; margin-bottom: 15px;">4. Action Research</h4>
+                                    <p style="color: #c2185b; margin-bottom: 15px;"><strong>Purpose:</strong> To solve practical problems and improve practices through collaborative inquiry.</p>
+                                    
+                                    <div style="margin: 20px 0;">
+                                        <h5 style="color: #be185d;">Characteristics:</h5>
+                                        <ul style="color: #c2185b; line-height: 1.6;">
+                                            <li><strong>Cyclical process:</strong> plan → act → observe → reflect</li>
+                                            <li>Involves stakeholders (e.g., teachers, community members)</li>
+                                            <li>Emphasizes change and empowerment</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div style="margin: 20px 0;">
+                                        <h5 style="color: #be185d;">Common in:</h5>
+                                        <p style="color: #c2185b;">Education, organizational development, community projects</p>
+                                    </div>
+                                    
+                                    <div style="background: rgba(236, 72, 153, 0.1); padding: 15px; border-radius: 10px;">
+                                        <strong style="color: #be185d;">Example:</strong>
+                                        <p style="color: #c2185b; margin: 5px 0;">A teacher researching and refining classroom management strategies over a semester.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="lesson-item" onclick="selectLesson(this, 2); scrollToSection('variables')">
-                        <div class="lesson-content">
-                            <div class="lesson-number">3</div>
-                            <div class="lesson-title">Variables and their Measurement</div>
+                    <div class="card">
+                        <h3>Four Classifications of Quantitative Research</h3>
+                        <div class="grid grid-cols-auto gap-4 mt-4">
+                            <div style="background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%); padding: 20px; border-radius: 15px; border: 2px solid #0288d1; cursor: pointer; transition: transform 0.3s ease;">
+                                <h4 style="color: #01579b;">Descriptive Research</h4>
+                                <p style="color: #0277bd; margin: 10px 0;"><strong>Purpose:</strong> To describe and interpret the current status of individuals, groups, or situations.</p>
+                                <p style="color: #0288d1; font-size: 0.9em;"><strong>Key Feature:</strong> Answers 'what is happening?' without manipulating variables.</p>
+                                <p style="color: #01579b; font-size: 0.85em; margin-top: 10px;"><em>Example: A survey describing students' study habits.</em></p>
+                            </div>
+
+                            <div style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); padding: 20px; border-radius: 15px; border: 2px solid #8e24aa; cursor: pointer; transition: transform 0.3s ease;">
+                                <h4 style="color: #4a148c;">Correlational Research</h4>
+                                <p style="color: #6a1b9a; margin: 10px 0;"><strong>Purpose:</strong> To investigate the relationship between two or more variables.</p>
+                                <p style="color: #8e24aa; font-size: 0.9em;"><strong>Key Feature:</strong> Determines if variables are related but does not establish causation.</p>
+                                <p style="color: #4a148c; font-size: 0.85em; margin-top: 10px;"><em>Example: Studying the relationship between hours of sleep and academic performance.</em></p>
+                            </div>
+
+                            <div style="background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%); padding: 20px; border-radius: 15px; border: 2px solid #43a047; cursor: pointer; transition: transform 0.3s ease;">
+                                <h4 style="color: #1b5e20;">Experimental Research</h4>
+                                <p style="color: #2e7d32; margin: 10px 0;"><strong>Purpose:</strong> To identify cause-and-effect relationships by manipulating the independent variable.</p>
+                                <p style="color: #43a047; font-size: 0.9em;"><strong>Key Feature:</strong> Uses random assignment to control and experimental groups.</p>
+                                <p style="color: #1b5e20; font-size: 0.85em; margin-top: 10px;"><em>Example: Testing a new teaching method on randomly assigned student groups.</em></p>
+                            </div>
+
+                            <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffcc02 100%); padding: 20px; border-radius: 15px; border: 2px solid #ff8f00; cursor: pointer; transition: transform 0.3s ease;">
+                                <h4 style="color: #e65100;">Causal-Comparative Research</h4>
+                                <p style="color: #ef6c00; margin: 10px 0;"><strong>Purpose:</strong> To identify possible cause-and-effect relationships after the fact by comparing groups.</p>
+                                <p style="color: #ff8f00; font-size: 0.9em;"><strong>Key Feature:</strong> No manipulation of variables; studies existing differences.</p>
+                                <p style="color: #e65100; font-size: 0.85em; margin-top: 10px;"><em>Example: Comparing academic performance of male and female students.</em></p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="lesson-item" onclick="selectLesson(this, 3)">
-                        <div class="lesson-content">
-                            <div class="lesson-number">4</div>
-                            <div class="lesson-title">Research Methods and Data Collection Strategies</div>
-                        </div>
-                    </div>
-
-                    <div class="lesson-item" onclick="selectLesson(this, 4)">
-                        <div class="lesson-content">
-                            <div class="lesson-number">5</div>
-                            <div class="lesson-title">Selecting a Sample from the Population</div>
-                        </div>
-                    </div>
-
-                    <div class="lesson-item" onclick="selectLesson(this, 5)">
-                        <div class="lesson-content">
-                            <div class="lesson-number">6</div>
-                            <div class="lesson-title">Generalizing from the Sample to the Population</div>
-                        </div>
-                    </div>
-
-                    <div class="lesson-item" onclick="selectLesson(this, 6)">
-                        <div class="lesson-content">
-                            <div class="lesson-number">7</div>
-                            <div class="lesson-title">Data Analysis for Descriptive Statistics</div>
+                    <div class="card">
+                        <h3>Interactive Knowledge Check</h3>
+                        <div id="quiz-container">
+                            <div class="quiz-question" id="question-1">
+                                <h4>Question 1: Which research approach would be most appropriate?</h4>
+                                <p style="margin: 15px 0;">You want to measure the effectiveness of a new study app by comparing test scores before and after using the app.</p>
+                                <div style="display: grid; gap: 10px; margin: 20px 0;">
+                                    <button class="quiz-option" onclick="checkAnswer(1, 'correct', this)">Quantitative Research (Experimental)</button>
+                                    <button class="quiz-option" onclick="checkAnswer(1, 'incorrect', this)">Qualitative Research</button>
+                                    <button class="quiz-option" onclick="checkAnswer(1, 'incorrect', this)">Descriptive Research Only</button>
+                                </div>
+                                <div id="feedback-1" class="quiz-feedback"></div>
+                            </div>
+                            
+                            <div class="quiz-question" id="question-2" style="display: none;">
+                                <h4>Question 2: What type of quantitative research is this?</h4>
+                                <p style="margin: 15px 0;">A researcher surveys 500 students about their study habits and sleep patterns to see if there's a relationship between hours of sleep and GPA.</p>
+                                <div style="display: grid; gap: 10px; margin: 20px 0;">
+                                    <button class="quiz-option" onclick="checkAnswer(2, 'incorrect', this)">Experimental</button>
+                                    <button class="quiz-option" onclick="checkAnswer(2, 'correct', this)">Correlational</button>
+                                    <button class="quiz-option" onclick="checkAnswer(2, 'incorrect', this)">Causal-Comparative</button>
+                                </div>
+                                <div id="feedback-2" class="quiz-feedback"></div>
+                            </div>
+                            
+                            <div id="quiz-complete" style="display: none; text-align: center; padding: 30px; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 15px; margin-top: 20px;">
+                                <h4 style="color: #065f46;">Quiz Complete!</h4>
+                                <p style="color: #047857; margin: 10px 0;">Great job! You've completed the interactive knowledge check.</p>
+                                <button onclick="restartQuiz()" style="padding: 12px 25px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; margin-top: 10px;">Restart Quiz</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -474,21 +975,22 @@
     </section>
 
     <!-- Hypothesis Section -->
-    <section id="hypothesis" class="lesson-section hypothesis-section">
+    <section id="hypothesis" class="lesson-section" style="background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #374151 100%); color: #e2e8f0;">
         <div class="container">
-            <div class="hypothesis-container">
-                <div class="hypothesis-header">
+            <div class="section-container">
+                <div class="section-header">
+                    <button onclick="scrollToSection('menu')" class="back-to-menu">← Back to Menu</button>
                     <h2>Research Problems & Hypotheses</h2>
                     <p>Interactive Learning Experience</p>
                 </div>
                 
-                <div class="hypothesis-content">
+                <div class="section-content">
                     <div class="card">
                         <h3>Sources of Research Problems</h3>
                         <p>Research problems emerge from various sources in our academic and professional environments. Understanding these sources helps researchers identify meaningful questions worth investigating.</p>
                         
                         <h4>Major Sources:</h4>
-                        <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                        <ul>
                             <li><strong>Literature Gaps:</strong> Unresolved questions or contradictions in existing research</li>
                             <li><strong>Professional Practice:</strong> Real-world challenges and problems in your field</li>
                             <li><strong>Theory Development:</strong> Testing or extending existing theories</li>
@@ -503,7 +1005,7 @@
                         <p>Strong research problems meet specific criteria that ensure they're worth investigating and feasible to study.</p>
                         
                         <h4>Essential Criteria:</h4>
-                        <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                        <ul>
                             <li><strong>Significance:</strong> The problem should matter to the field or society</li>
                             <li><strong>Feasibility:</strong> Possible to investigate with available resources and time</li>
                             <li><strong>Clarity:</strong> Clearly defined and specific, not vague or overly broad</li>
@@ -517,16 +1019,16 @@
                         <h3>Types of Hypotheses</h3>
                         <p>A hypothesis is a testable prediction about the relationship between variables. Different types serve different research purposes.</p>
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
-                            <div>
-                                <h4 style="color: #8b5cf6;">Directional vs. Non-directional</h4>
+                        <div class="grid grid-cols-auto gap-4 mt-4">
+                            <div style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);">
+                                <h4>Directional vs. Non-directional</h4>
                                 <p><strong>Directional:</strong> Predicts the direction of relationship</p>
                                 <p><em>Example:</em> "Students who study more will score higher"</p>
                                 <p><strong>Non-directional:</strong> Predicts a relationship exists but not the direction</p>
                                 <p><em>Example:</em> "There is a relationship between study time and test scores"</p>
                             </div>
-                            <div>
-                                <h4 style="color: #8b5cf6;">Null vs. Alternative</h4>
+                            <div style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);">
+                                <h4>Null vs. Alternative</h4>
                                 <p><strong>Null (H₀):</strong> No relationship exists</p>
                                 <p><em>Example:</em> "Study time has no effect on test scores"</p>
                                 <p><strong>Alternative (H₁):</strong> A relationship exists</p>
@@ -540,105 +1042,236 @@
     </section>
 
     <!-- Variables Section -->
-    <section id="variables" class="lesson-section variables-section">
+    <section id="variables" class="lesson-section" style="background: linear-gradient(135deg, #581c87 0%, #7c3aed 50%, #a855f7 100%); color: #333;">
         <div class="container">
-            <div class="variables-container">
-                <div class="variables-header">
-                    <h2>Variables and their Measurement</h2>
-                    <p>An Interactive Learning Experience</p>
+            <div style="background: rgba(255, 255, 255, 0.95); border-radius: 20px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2); overflow: hidden; backdrop-filter: blur(20px);">
+                <div style="text-align: center; color: white; padding: 40px; background: rgba(88, 28, 135, 0.2); border-radius: 20px 20px 0 0; backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <button onclick="scrollToSection('menu')" class="back-to-menu">← Back to Menu</button>
+                    <h2 style="font-size: 2.8rem; margin-bottom: 15px; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); font-weight: 800;">Variables and their Measurement</h2>
+                    <p style="font-size: 1.2em; opacity: 0.9;">An Interactive Learning Experience</p>
                 </div>
                 
-                <div class="variables-content">
+                <div style="padding: 50px 40px;">
                     <div class="card">
                         <h3>Learning Objectives</h3>
                         <p>By the end of this lesson, you will be able to:</p>
                         <ul>
                             <li>Define and explain the concept of variables in research</li>
-                            <li>Classify different types of variables</li>
+                            <li>Classify different types of variables by role and nature</li>
                             <li>Understand scales of measurement and their properties</li>
                             <li>Identify different types of measuring instruments</li>
                             <li>Evaluate validity and reliability of measuring instruments</li>
+                            <li>Apply operational definitions to convert concepts into measurable variables</li>
                         </ul>
                     </div>
 
                     <div class="card">
                         <h3>Defining and Measuring Concepts and Variables</h3>
                         
-                        <h4>What is a Variable?</h4>
-                        <p>A <strong>variable</strong> is any characteristic, property, or attribute of an entity that can vary or take on different values. Variables are the building blocks of research and measurement.</p>
-                        
-                        <div style="background: #f0f4f8; border-left: 4px solid #667eea; padding: 20px; margin: 15px 0; border-radius: 0 8px 8px 0;">
-                            <strong>Examples of Variables:</strong>
-                            <ul>
-                                <li><strong>Age:</strong> Can range from 0 to 100+ years</li>
-                                <li><strong>Gender:</strong> Male, Female, Non-binary, etc.</li>
-                                <li><strong>Income:</strong> Various monetary amounts</li>
-                                <li><strong>Academic Performance:</strong> GPA, test scores</li>
-                                <li><strong>Attitude:</strong> Positive, neutral, negative</li>
-                            </ul>
+                        <div style="background: linear-gradient(135deg, #fef7cd 0%, #fef3c7 100%); border: 2px solid #f59e0b; padding: 25px; margin: 20px 0; border-radius: 15px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);">
+                            <h4 style="color: #92400e; margin-bottom: 15px;">Think About This:</h4>
+                            <p style="color: #b45309; font-style: italic; font-size: 1.1em;">
+                                "How would you measure happiness?"<br>
+                                "Can intelligence be measured the same way as height?"
+                            </p>
                         </div>
                         
-                        <h4>Concept vs. Variable</h4>
-                        <p>A <strong>concept</strong> is an abstract idea or mental construct (like "intelligence" or "satisfaction"). A <strong>variable</strong> is the operational way we measure that concept (like "IQ score" or "rating on a 1-10 scale").</p>
+                        <h4>Key Definitions</h4>
+                        <div class="grid grid-cols-auto gap-4 mt-4">
+                            <div style="background: linear-gradient(135deg, #ddd6fe 0%, #e0e7ff 100%); padding: 20px; border-radius: 10px; border: 2px solid #7c3aed;">
+                                <h5 style="color: #581c87;">Concept</h5>
+                                <p style="color: #4c1d95;">Abstract idea or mental construct (e.g., intelligence, stress, leadership)</p>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%); padding: 20px; border-radius: 10px; border: 2px solid #10b981;">
+                                <h5 style="color: #047857;">Variable</h5>
+                                <p style="color: #065f46;">Measurable representation of a concept that can vary or take on different values</p>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%); padding: 20px; border-radius: 10px; border: 2px solid #f59e0b;">
+                                <h5 style="color: #92400e;">Operational Definition</h5>
+                                <p style="color: #b45309;">The process of converting a concept into measurable indicators</p>
+                            </div>
+                        </div>
+                        
+                        <h4>Example: From Concept to Variable</h4>
+                        <div style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border-left: 5px solid #0891b2; padding: 25px; margin: 20px 0; border-radius: 0 15px 15px 0; box-shadow: 0 4px 15px rgba(8, 145, 178, 0.1);">
+                            <ul style="color: #0c4a6e; line-height: 1.8;">
+                                <li><strong>Concept:</strong> Academic performance</li>
+                                <li><strong>Operational Definition:</strong> GPA on a 4.0 scale</li>
+                                <li><strong>Variable:</strong> GPA scores (0.0–4.0)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Classification of Variables</h3>
+                        
+                        <h4>A. By Role in Research</h4>
+                        <div class="grid grid-cols-auto gap-4 mt-4">
+                            <div style="background: linear-gradient(135deg, #f3e8ff 0%, #fae8ff 100%); padding: 20px; border-radius: 10px; border: 2px solid #a855f7;">
+                                <h5 style="color: #7c3aed;">Independent Variable (IV)</h5>
+                                <p style="color: #581c87;">The cause or predictor variable that is manipulated or controlled by the researcher.</p>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%); padding: 20px; border-radius: 10px; border: 2px solid #10b981;">
+                                <h5 style="color: #059669;">Dependent Variable (DV)</h5>
+                                <p style="color: #047857;">The effect or outcome variable that is observed and measured for changes.</p>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #fef3c7 0%, #fef7cd 100%); padding: 20px; border-radius: 10px; border: 2px solid #f59e0b;">
+                                <h5 style="color: #d97706;">Confounding Variable</h5>
+                                <p style="color: #b45309;">Extra factor that may influence the IV-DV relationship and needs to be controlled.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border-left: 5px solid #0891b2; padding: 20px; margin: 20px 0; border-radius: 0 10px 10px 0;">
+                            <h5 style="color: #0c4a6e;">Example:</h5>
+                            <p style="color: #164e63;">Study time (IV) → Test score (DV), but prior knowledge (confounding variable)</p>
+                        </div>
+
+                        <h4>B. By Nature of Values</h4>
+                        
+                        <h5 style="margin-top: 25px; color: #4338ca;">Quantitative Variables</h5>
+                        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                            <div style="background: linear-gradient(135deg, #e0e7ff 0%, #f0f9ff 100%); padding: 15px; border-radius: 8px; border: 1px solid #6366f1;">
+                                <h6 style="color: #4338ca;">Discrete Variables</h6>
+                                <p style="color: #3730a3; font-size: 0.9em;">Countable values</p>
+                                <p style="color: #312e81; font-size: 0.85em;"><em>Examples: No. of children, No. of errors</em></p>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #e0e7ff 0%, #f0f9ff 100%); padding: 15px; border-radius: 8px; border: 1px solid #6366f1;">
+                                <h6 style="color: #4338ca;">Continuous Variables</h6>
+                                <p style="color: #3730a3; font-size: 0.9em;">Measurable values</p>
+                                <p style="color: #312e81; font-size: 0.85em;"><em>Examples: Height, weight, temperature</em></p>
+                            </div>
+                        </div>
+
+                        <h5 style="margin-top: 25px; color: #dc2626;">Qualitative Variables (Categorical)</h5>
+                        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin: 15px 0;">
+                            <div style="background: linear-gradient(135deg, #fef2f2 0%, #fef7f7 100%); padding: 20px; border-radius: 10px; border: 2px solid #dc2626;">
+                                <h6 style="color: #dc2626;">Nominal Data</h6>
+                                <p style="color: #991b1b;">Categories with no inherent order</p>
+                                <div style="margin: 10px 0;">
+                                    <strong style="color: #7f1d1d;">Properties:</strong>
+                                    <ul style="color: #7f1d1d; font-size: 0.9em; margin: 5px 0;">
+                                        <li>No ordering possible</li>
+                                        <li>Cannot be compared on a scale</li>
+                                        <li>No arithmetic operations</li>
+                                    </ul>
+                                </div>
+                                <div style="background: rgba(220, 38, 38, 0.1); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                                    <strong style="color: #7f1d1d; font-size: 0.9em;">Examples:</strong>
+                                    <p style="color: #7f1d1d; font-size: 0.85em; margin: 5px 0;">Gender, Blood type, Marital status, Colors, Days of the week</p>
+                                </div>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #fff7ed 0%, #fffbf5 100%); padding: 20px; border-radius: 10px; border: 2px solid #ea580c;">
+                                <h6 style="color: #ea580c;">Ordinal Data</h6>
+                                <p style="color: #c2410c;">Categories with rank order but unequal intervals</p>
+                                <div style="margin: 10px 0;">
+                                    <strong style="color: #9a3412;">Properties:</strong>
+                                    <ul style="color: #9a3412; font-size: 0.9em; margin: 5px 0;">
+                                        <li>Follows sequential ordering</li>
+                                        <li>Can be compared on a scale</li>
+                                        <li>Some arithmetic operations possible</li>
+                                    </ul>
+                                </div>
+                                <div style="background: rgba(234, 88, 12, 0.1); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                                    <strong style="color: #9a3412; font-size: 0.9em;">Examples:</strong>
+                                    <p style="color: #9a3412; font-size: 0.85em; margin: 5px 0;">Grades (A,B,C,D), Reviews (excellent, good, fair, poor), Educational qualifications</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card">
                         <h3>Scales of Measurement</h3>
                         <p>Understanding scales of measurement is crucial for choosing appropriate statistical analyses and interpreting results correctly.</p>
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
-                            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px;">
-                                <h4>Nominal Scale</h4>
-                                <p><strong>Categories with no inherent order</strong></p>
-                                <ul>
-                                    <li>Examples: Gender, Race, Religion</li>
-                                    <li>Properties: Identity only</li>
-                                    <li>Statistics: Mode, frequency</li>
-                                </ul>
+                        <div style="overflow-x: auto; margin: 20px 0;">
+                            <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white;">
+                                        <th style="padding: 15px; text-align: left; font-weight: 600;">Scale</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600;">Properties</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600;">Examples</th>
+                                        <th style="padding: 15px; text-align: left; font-weight: 600;">Math Operations</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #e5e7eb;">
+                                        <td style="padding: 15px; font-weight: 600; color: #dc2626;">Nominal</td>
+                                        <td style="padding: 15px; color: #374151;">Identity only</td>
+                                        <td style="padding: 15px; color: #374151;">Gender, Blood type</td>
+                                        <td style="padding: 15px; color: #374151;">Mode</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e5e7eb;">
+                                        <td style="padding: 15px; font-weight: 600; color: #ea580c;">Ordinal</td>
+                                        <td style="padding: 15px; color: #374151;">Identity + Order</td>
+                                        <td style="padding: 15px; color: #374151;">Education level, Likert scales</td>
+                                        <td style="padding: 15px; color: #374151;">Mode, Median</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e5e7eb;">
+                                        <td style="padding: 15px; font-weight: 600; color: #0891b2;">Interval</td>
+                                        <td style="padding: 15px; color: #374151;">Identity + Order + Equal Intervals</td>
+                                        <td style="padding: 15px; color: #374151;">Temperature (°C), IQ scores</td>
+                                        <td style="padding: 15px; color: #374151;">Mean, SD</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 15px; font-weight: 600; color: #059669;">Ratio</td>
+                                        <td style="padding: 15px; color: #374151;">Identity + Order + Equal Intervals + Absolute Zero</td>
+                                        <td style="padding: 15px; color: #374151;">Height, Weight, Income</td>
+                                        <td style="padding: 15px; color: #374151;">All stats + Ratios</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Types of Measuring Instruments</h3>
+                        <p>Research employs various instruments to collect data, each suited for different types of variables and research contexts.</p>
+                        
+                        <div class="grid grid-cols-auto gap-4 mt-4">
+                            <div style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); padding: 20px; border-radius: 12px; border: 2px solid #0891b2;">
+                                <h4 style="color: #0c4a6e;">1. Direct Observation</h4>
+                                <p style="color: #164e63; margin: 10px 0;">Measuring variables through direct observation of behaviors or physical characteristics.</p>
+                                <p style="color: #0c4a6e; font-size: 0.9em;"><em>Examples: Height measurement, behavior frequency counts</em></p>
                             </div>
                             
-                            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px;">
-                                <h4>Ordinal Scale</h4>
-                                <p><strong>Categories with meaningful order</strong></p>
-                                <ul>
-                                    <li>Examples: Education level, Satisfaction ratings</li>
-                                    <li>Properties: Identity + Order</li>
-                                    <li>Statistics: Median, percentiles</li>
-                                </ul>
+                            <div style="background: linear-gradient(135deg, #f0fdf4 0%, #f7fee7 100%); padding: 20px; border-radius: 12px; border: 2px solid #16a34a;">
+                                <h4 style="color: #15803d;">2. Self-Report Instruments</h4>
+                                <p style="color: #166534; margin: 10px 0;">Collecting data through participants' own responses and perceptions.</p>
+                                <p style="color: #15803d; font-size: 0.9em;"><em>Examples: Surveys, interviews, rating scales</em></p>
                             </div>
                             
-                            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px;">
-                                <h4>Interval Scale</h4>
-                                <p><strong>Equal intervals, no true zero</strong></p>
-                                <ul>
-                                    <li>Examples: Temperature (°C/°F), IQ scores</li>
-                                    <li>Properties: Identity + Order + Equal intervals</li>
-                                    <li>Statistics: Mean, standard deviation</li>
-                                </ul>
+                            <div style="background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%); padding: 20px; border-radius: 12px; border: 2px solid #f59e0b;">
+                                <h4 style="color: #92400e;">3. Performance-Based Tests</h4>
+                                <p style="color: #a16207; margin: 10px 0;">Assessing abilities, skills, or knowledge through standardized tasks.</p>
+                                <p style="color: #92400e; font-size: 0.9em;"><em>Examples: IQ tests, achievement tests, skill assessments</em></p>
                             </div>
                             
-                            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px;">
-                                <h4>Ratio Scale</h4>
-                                <p><strong>Equal intervals with true zero point</strong></p>
-                                <ul>
-                                    <li>Examples: Height, Weight, Income, Age</li>
-                                    <li>Properties: All properties + True zero</li>
-                                    <li>Statistics: All operations valid</li>
-                                </ul>
+                            <div style="background: linear-gradient(135deg, #fef2f2 0%, #fef7f7 100%); padding: 20px; border-radius: 12px; border: 2px solid #dc2626;">
+                                <h4 style="color: #991b1b;">4. Physiological Measures</h4>
+                                <p style="color: #b91c1c; margin: 10px 0;">Recording biological or physiological indicators of variables.</p>
+                                <p style="color: #991b1b; font-size: 0.9em;"><em>Examples: EEG, blood pressure, heart rate</em></p>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #f3e8ff 0%, #fae8ff 100%); padding: 20px; border-radius: 12px; border: 2px solid #a855f7;">
+                                <h4 style="color: #7c2d92;">5. Existing Records</h4>
+                                <p style="color: #86198f; margin: 10px 0;">Using pre-existing documentation and archival data.</p>
+                                <p style="color: #7c2d92; font-size: 0.9em;"><em>Examples: Academic transcripts, medical records, historical data</em></p>
                             </div>
                         </div>
                     </div>
 
                     <div class="card">
                         <h3>Validity and Reliability</h3>
+                        <p>Two crucial concepts in evaluating the quality of measuring instruments.</p>
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                            <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 20px; border-radius: 10px;">
-                                <h4>VALIDITY</h4>
-                                <p><strong>Does the instrument measure what it claims to measure?</strong></p>
+                        <div class="grid grid-cols-auto gap-4 mt-4">
+                            <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);">
+                                <h4 style="color: #065f46;">VALIDITY</h4>
+                                <p style="color: #047857;"><strong>Does the instrument measure what it claims to measure?</strong></p>
                                 
-                                <h5>Types of Validity:</h5>
-                                <ul>
+                                <h5 style="color: #065f46;">Types of Validity:</h5>
+                                <ul style="color: #047857;">
                                     <li><strong>Content Validity:</strong> Covers all aspects of the concept</li>
                                     <li><strong>Construct Validity:</strong> Measures the theoretical construct</li>
                                     <li><strong>Criterion Validity:</strong> Predicts or correlates with other measures</li>
@@ -646,12 +1279,12 @@
                                 </ul>
                             </div>
                             
-                            <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; padding: 20px; border-radius: 10px;">
-                                <h4>RELIABILITY</h4>
-                                <p><strong>Does the instrument produce consistent results?</strong></p>
+                            <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);">
+                                <h4 style="color: #92400e;">RELIABILITY</h4>
+                                <p style="color: #b45309;"><strong>Does the instrument produce consistent results?</strong></p>
                                 
-                                <h5>Types of Reliability:</h5>
-                                <ul>
+                                <h5 style="color: #92400e;">Types of Reliability:</h5>
+                                <ul style="color: #b45309;">
                                     <li><strong>Test-Retest:</strong> Consistency over time</li>
                                     <li><strong>Internal Consistency:</strong> Items measure same construct</li>
                                     <li><strong>Inter-rater:</strong> Agreement between raters</li>
@@ -669,8 +1302,23 @@
         let completedLessons = new Set();
         const totalLessons = 7;
         let currentSection = 'menu';
+        let currentQuestion = 1;
+        let correctAnswers = 0;
+
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const navToggle = document.querySelector('.nav-toggle');
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        }
 
         function scrollToSection(sectionId) {
+            // Close mobile menu if open
+            const navMenu = document.getElementById('navMenu');
+            const navToggle = document.querySelector('.nav-toggle');
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+
             document.getElementById(sectionId).scrollIntoView({ 
                 behavior: 'smooth',
                 block: 'start'
@@ -680,7 +1328,13 @@
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
-            event.target.classList.add('active');
+            
+            // Find the clicked nav item and activate it
+            document.querySelectorAll('.nav-item').forEach(item => {
+                if (item.textContent.toLowerCase().includes(sectionId.replace('-', ' '))) {
+                    item.classList.add('active');
+                }
+            });
             
             currentSection = sectionId;
             updateProgress();
@@ -692,8 +1346,8 @@
                 item.classList.remove('active');
             });
 
-            // Add active class to selected lesson
-            element.classList.add('active');
+            // Add completed class to selected lesson
+            element.classList.add('completed');
 
             // Mark as completed
             completedLessons.add(index);
@@ -701,43 +1355,153 @@
             // Update progress
             updateProgress();
 
-            // Remove active state after animation
+            // Add visual feedback
+            element.style.transform = 'scale(1.05)';
             setTimeout(() => {
-                element.classList.remove('active');
-            }, 2000);
+                element.style.transform = '';
+            }, 200);
         }
 
         function updateProgress() {
             let progressPercentage = 0;
             
             // Base progress on completed lessons and current section
-            const lessonProgress = (completedLessons.size / totalLessons) * 70;
+            const lessonProgress = (completedLessons.size / totalLessons) * 50;
             
             // Add section progress
             let sectionProgress = 0;
             switch(currentSection) {
                 case 'menu': sectionProgress = 10; break;
-                case 'hypothesis': sectionProgress = 20; break;
-                case 'variables': sectionProgress = 30; break;
+                case 'quantitative-inquiry': sectionProgress = 20; break;
+                case 'hypothesis': sectionProgress = 30; break;
+                case 'variables': sectionProgress = 50; break;
             }
             
             progressPercentage = lessonProgress + sectionProgress;
             
             // Update progress bar
-            document.getElementById('progressFill').style.width = Math.min(100, progressPercentage) + '%';
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const finalProgress = Math.min(100, progressPercentage);
+            
+            progressFill.style.width = finalProgress + '%';
+            progressText.textContent = `Progress: ${Math.round(finalProgress)}%`;
         }
 
-        // Track scrolling for navigation updates
+        function showApproach(approach, button) {
+            // Hide all content
+            document.querySelectorAll('.approach-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.approach-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected content
+            document.getElementById(approach + '-content').classList.add('active');
+            
+            // Activate selected tab
+            button.classList.add('active');
+        }
+
+        function checkAnswer(questionNum, isCorrect, button) {
+            // Disable all options for this question
+            const allOptions = button.parentElement.querySelectorAll('.quiz-option');
+            allOptions.forEach(option => {
+                option.style.pointerEvents = 'none';
+                option.style.opacity = '0.7';
+            });
+
+            const feedback = document.getElementById('feedback-' + questionNum);
+            
+            if (isCorrect === 'correct') {
+                button.classList.add('correct');
+                feedback.style.background = 'linear-gradient(135deg, #d1fae5, #a7f3d0)';
+                feedback.style.color = '#065f46';
+                feedback.innerHTML = '✅ Correct! ' + getCorrectFeedback(questionNum);
+                correctAnswers++;
+            } else {
+                button.classList.add('incorrect');
+                feedback.style.background = 'linear-gradient(135deg, #fee2e2, #fecaca)';
+                feedback.style.color = '#991b1b';
+                feedback.innerHTML = '❌ Not quite. ' + getIncorrectFeedback(questionNum);
+            }
+            
+            feedback.style.display = 'block';
+            
+            // Show next question after delay
+            setTimeout(() => {
+                if (currentQuestion < 2) {
+                    document.getElementById('question-' + currentQuestion).style.display = 'none';
+                    currentQuestion++;
+                    document.getElementById('question-' + currentQuestion).style.display = 'block';
+                } else {
+                    document.getElementById('question-' + currentQuestion).style.display = 'none';
+                    showQuizComplete();
+                }
+            }, 2000);
+        }
+
+        function getCorrectFeedback(questionNum) {
+            const feedback = {
+                1: 'This is experimental research because you\'re manipulating a variable (app usage) and measuring the effect (test scores).',
+                2: 'This is correlational research because you\'re examining the relationship between two variables without manipulating either one.'
+            };
+            return feedback[questionNum];
+        }
+
+        function getIncorrectFeedback(questionNum) {
+            const feedback = {
+                1: 'This scenario involves testing cause and effect by comparing before and after results, which is experimental quantitative research.',
+                2: 'This is correlational research - you\'re looking for relationships between existing variables without manipulation.'
+            };
+            return feedback[questionNum];
+        }
+
+        function showQuizComplete() {
+            document.getElementById('quiz-complete').style.display = 'block';
+            const completeDiv = document.getElementById('quiz-complete');
+            completeDiv.querySelector('p').textContent = `Great job! You got ${correctAnswers} out of 2 questions correct.`;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 1;
+            correctAnswers = 0;
+            
+            // Reset all questions
+            document.querySelectorAll('.quiz-question').forEach((question, index) => {
+                question.style.display = index === 0 ? 'block' : 'none';
+                
+                // Reset options
+                question.querySelectorAll('.quiz-option').forEach(option => {
+                    option.classList.remove('correct', 'incorrect');
+                    option.style.pointerEvents = 'auto';
+                    option.style.opacity = '1';
+                });
+                
+                // Hide feedback
+                const feedback = question.querySelector('[id^="feedback-"]');
+                if (feedback) feedback.style.display = 'none';
+            });
+            
+            document.getElementById('quiz-complete').style.display = 'none';
+        }
+
+        // Enhanced scroll tracking
         window.addEventListener('scroll', function() {
-            const sections = ['menu', 'hypothesis', 'variables'];
+            const sections = ['menu', 'quantitative-inquiry', 'hypothesis', 'variables'];
             let currentSectionId = 'menu';
             
             sections.forEach(sectionId => {
                 const section = document.getElementById(sectionId);
-                const rect = section.getBoundingClientRect();
-                
-                if (rect.top <= 100 && rect.bottom >= 100) {
-                    currentSectionId = sectionId;
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    
+                    if (rect.top <= 150 && rect.bottom >= 150) {
+                        currentSectionId = sectionId;
+                    }
                 }
             });
             
@@ -754,6 +1518,7 @@
                 navItems.forEach(item => {
                     const itemText = item.textContent.toLowerCase();
                     if ((currentSectionId === 'menu' && itemText.includes('menu')) ||
+                        (currentSectionId === 'quantitative-inquiry' && itemText.includes('quantitative')) ||
                         (currentSectionId === 'hypothesis' && itemText.includes('hypothesis')) ||
                         (currentSectionId === 'variables' && itemText.includes('variables'))) {
                         item.classList.add('active');
@@ -764,64 +1529,58 @@
             }
         });
 
-        // Add some initial animation
+        // Enhanced page load animation
         window.addEventListener('load', function() {
+            // Animate lesson items
             const lessons = document.querySelectorAll('.lesson-item');
             lessons.forEach((lesson, index) => {
+                lesson.style.opacity = '0';
+                lesson.style.transform = 'translateY(30px)';
+                lesson.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                
                 setTimeout(() => {
-                    lesson.style.opacity = '0';
-                    lesson.style.transform = 'translateY(20px)';
-                    lesson.style.transition = 'all 0.5s ease';
-                    
-                    setTimeout(() => {
-                        lesson.style.opacity = '1';
-                        lesson.style.transform = 'translateY(0)';
-                    }, 50);
-                }, index * 100);
+                    lesson.style.opacity = '1';
+                    lesson.style.transform = 'translateY(0)';
+                }, index * 150);
             });
-            
+
             // Initialize progress
             updateProgress();
         });
 
-        // Add intersection observer for better section tracking
-        const observerOptions = {
-            root: null,
-            rootMargin: '-50% 0px -50% 0px',
-            threshold: 0
-        };
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMenu = document.getElementById('navMenu');
+            const navToggle = document.querySelector('.nav-toggle');
+            const navContainer = document.querySelector('.nav-container');
+            
+            if (!navContainer.contains(event.target)) {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+            }
+        });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const sectionId = entry.target.id;
-                    if (sectionId !== currentSection) {
-                        currentSection = sectionId;
-                        
-                        // Update navigation
-                        document.querySelectorAll('.nav-item').forEach(item => {
-                            item.classList.remove('active');
-                        });
-                        
-                        const navItems = document.querySelectorAll('.nav-item');
-                        navItems.forEach(item => {
-                            const itemText = item.textContent.toLowerCase();
-                            if ((sectionId === 'menu' && itemText.includes('menu')) ||
-                                (sectionId === 'hypothesis' && itemText.includes('hypothesis')) ||
-                                (sectionId === 'variables' && itemText.includes('variables'))) {
-                                item.classList.add('active');
-                            }
-                        });
-                        
-                        updateProgress();
-                    }
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const navMenu = document.getElementById('navMenu');
+                const navToggle = document.querySelector('.nav-toggle');
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+            }
+        });
+
+        // Add smooth hover effects for lesson items
+        document.querySelectorAll('.lesson-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('completed')) {
+                    this.style.transform = '';
                 }
             });
-        }, observerOptions);
-
-        // Observe all sections
-        document.querySelectorAll('.lesson-section').forEach(section => {
-            observer.observe(section);
         });
     </script>
 </body>
